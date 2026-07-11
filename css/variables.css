@@ -1,0 +1,81 @@
+/* ============================================================
+   DEVHUB — DESIGN TOKENS (CLAYMORPHISM)
+   ============================================================
+   Sistema de variables centralizado para mantener consistencia
+   visual en todos los módulos de la aplicación.
+   ============================================================ */
+
+:root {
+    /* Tipografía */
+    --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+    /* Fondo general */
+    --bg-gradient-start: #f3f7fc;
+    --bg-gradient-end: #dfebf7;
+
+    /* Tarjeta Claymorphic principal */
+    --clay-card-bg: rgba(255, 255, 255, 0.72);
+    --clay-card-border: rgba(255, 255, 255, 0.85);
+    --clay-card-shadow-outer: 0 20px 40px rgba(122, 146, 179, 0.25);
+    --clay-card-shadow-inner:
+        inset -6px -6px 12px rgba(255, 255, 255, 0.7),
+        inset 6px 6px 12px rgba(165, 185, 212, 0.15);
+
+    /* Inputs */
+    --clay-input-bg: #edf3f9;
+    --clay-input-shadow-inner:
+        inset 2px 2px 5px rgba(165, 185, 212, 0.4),
+        inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+
+    /* Botón primario */
+    --clay-btn-primary-bg: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    --clay-btn-primary-shadow:
+        0 10px 20px rgba(79, 70, 229, 0.25),
+        inset -4px -4px 8px rgba(0, 0, 0, 0.18),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.2);
+
+    /* Botón peligro */
+    --clay-btn-danger-bg: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    --clay-btn-danger-shadow:
+        0 10px 20px rgba(239, 68, 68, 0.25),
+        inset -4px -4px 8px rgba(0, 0, 0, 0.18),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.2);
+
+    /* Colores semánticos — contraste WCAG AA */
+    --text-main: #1e293b;
+    --text-muted: #475569;
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-success: #15803d;
+    --color-error: #b91c1c;
+
+    /* Alertas */
+    --clay-alert-error-bg: rgba(254, 242, 242, 0.85);
+    --clay-alert-error-border: rgba(252, 165, 165, 0.5);
+    --clay-alert-success-bg: rgba(240, 253, 244, 0.85);
+    --clay-alert-success-border: rgba(134, 239, 172, 0.5);
+
+    /* Radios */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --radius-xl: 32px;
+    --radius-2xl: 36px;
+
+    /* Transiciones */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-smooth: 0.25s ease-in-out;
+}
+
+/* Accesibilidad: respetar la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -1,0 +1,200 @@
+/* ============================================================
+   DEVHUB — ESTILOS DEL MÓDULO DE AUTENTICACIÓN
+   ============================================================
+   Layout de dos columnas en desktop, animaciones de
+   transición entre vistas e indicadores de contraseña.
+   ============================================================ */
+
+/* ---- ANIMACIÓN DE ENTRADA DE VISTAS ---- */
+
+.fade-in-view {
+    animation: viewFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes viewFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ---- INDICADORES DINÁMICOS DE REQUISITOS DE CONTRASEÑA ---- */
+
+.password-requirements {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+}
+
+.password-requirements li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.4rem;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+}
+
+.password-requirements li .req-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    transition: all var(--transition-fast);
+}
+
+.password-requirements li.met {
+    color: var(--color-success);
+}
+
+.password-requirements li.met .req-icon {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: #ffffff;
+}
+
+/* ---- BRANDING DE LA COLUMNA IZQUIERDA (DESKTOP) ---- */
+
+.auth-brand-title {
+    letter-spacing: -1.5px;
+    color: #0f172a;
+}
+
+.auth-brand-subtitle {
+    line-height: 1.6;
+}
+
+/* ---- ENCABEZADO MÓVIL DENTRO DE LA TARJETA ---- */
+
+.auth-mobile-header {
+    letter-spacing: -0.5px;
+}
+
+/* ---- SEPARACIÓN ENTRE SECCIONES SIN LÍNEAS HORIZONTALES ---- */
+
+.auth-section-gap {
+    margin-bottom: 1.5rem;
+}
+
+/* ---- ESTILOS DE FORMULARIOS DE AUTENTICACIÓN ---- */
+
+.auth-form-footer {
+    padding-top: 0.5rem;
+}
+
+/* ---- ADAPTACIÓN MÓVIL: TODO EN PANTALLA SIN SCROLL ---- */
+
+@media (max-width: 767.98px) {
+    body {
+        overflow: hidden;
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    }
+
+    main.container {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    /* Reduce card padding on mobile */
+    .clay-card {
+        padding: 1.25rem !important;
+    }
+
+    /* Tighten up spacing in auth sections */
+    .auth-section-gap {
+        margin-bottom: 1rem;
+    }
+
+    .auth-section-gap h3 {
+        font-size: 1.15rem;
+    }
+
+    .auth-section-gap p {
+        font-size: 0.8rem;
+    }
+
+    /* Compact input wrappers */
+    .clay-input-wrapper {
+        margin-bottom: 0.6rem !important;
+    }
+
+    .clay-input {
+        padding: 0.55rem 0.75rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    .clay-label {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    /* Compact buttons */
+    .clay-btn {
+        padding: 0.6rem !important;
+        font-size: 0.9rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* Reduce forgot password link area */
+    .d-flex.justify-content-end.mb-4 {
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* Mobile header compact */
+    .auth-mobile-header {
+        font-size: 1.25rem;
+        margin-bottom: 0 !important;
+    }
+
+    .text-center.d-lg-none.mb-4 {
+        margin-bottom: 0.75rem !important;
+    }
+
+    .text-center.d-lg-none.mb-4 svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Compact footer */
+    footer {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .auth-form-footer {
+        padding-top: 0.25rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 374px) {
+    .clay-card {
+        padding: 1rem !important;
+    }
+
+    .auth-section-gap {
+        margin-bottom: 0.75rem;
+    }
+
+    .clay-input {
+        padding: 0.45rem 0.65rem !important;
+        font-size: 0.82rem !important;
+    }
+
+    .clay-btn {
+        padding: 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+}
