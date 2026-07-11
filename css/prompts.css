@@ -1246,11 +1246,23 @@
     }
 
     .prompts-toolbar {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
     }
 
     .prompts-search-wrapper {
-        min-width: 100%;
+        grid-column: 1 / -1;
+    }
+
+    .btn-filter-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .prompts-toolbar .filter-group {
+        min-width: 0 !important;
+        width: 100%;
     }
 
     .btn-new-prompt {
