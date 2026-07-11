@@ -29,7 +29,7 @@ export const SORT_OPTIONS = [
     { value: 'title_asc', label: 'Título (A-Z)', column: 'title', ascending: true },
     { value: 'title_desc', label: 'Título (Z-A)', column: 'title', ascending: false },
     { value: 'last_used', label: 'Último uso', column: 'last_used_at', ascending: false },
-    { value: 'version', label: 'Versión', column: 'version', ascending: false },
+    // { value: 'version', label: 'Versión', column: 'version', ascending: false },
 ];
 
 /* ---- COLUMNAS DE SELECCIÓN ---- */

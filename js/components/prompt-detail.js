@@ -46,9 +46,9 @@ export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
         if (onEditCallback && currentPromptId) onEditCallback(currentPromptId);
     });
 
-    const dupBtn = document.getElementById('detail-duplicate-btn');
-    if (dupBtn) dupBtn.addEventListener('click', () => {
-        if (onDuplicateCallback && currentPromptId) onDuplicateCallback(currentPromptId);
+    const copyAllHeaderBtn = document.getElementById('detail-copy-all-btn');
+    if (copyAllHeaderBtn) copyAllHeaderBtn.addEventListener('click', () => {
+        copyAllContent();
     });
 
     const delBtn = document.getElementById('detail-delete-btn');
@@ -60,11 +60,11 @@ export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
     document.getElementById('copy-prompt-btn')?.addEventListener('click', () => {
         let textToCopy = document.getElementById('detail-prompt-text')?.textContent || '';
         const negEl = document.getElementById('detail-negative-text');
-        if (negEl && negEl.textContent) textToCopy += `\n\nPrompt Negativo:\n${negEl.textContent}`;
-        
+        if (negEl && negEl.textContent) textToCopy += `\n\n${negEl.textContent}`;
+
         const jsonPre = document.querySelector('#detail-json-text pre');
         if (jsonPre && jsonPre.textContent) textToCopy += `\n\nJSON:\n${jsonPre.textContent}`;
-        
+
         copyToClipboard(textToCopy);
     });
     document.getElementById('copy-negative-btn')?.addEventListener('click', () => {
@@ -78,9 +78,6 @@ export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
     document.getElementById('copy-result-btn')?.addEventListener('click', () => {
         const el = document.getElementById('detail-result-text');
         if (el) copyToClipboard(el.textContent);
-    });
-    document.getElementById('copy-all-btn')?.addEventListener('click', () => {
-        copyAllContent();
     });
 }
 
@@ -126,9 +123,9 @@ export async function showDetail(prompt) {
     if (prompt.json_content) {
         const formatted = JSON.stringify(prompt.json_content, null, 2);
         const container = document.getElementById('detail-json-text');
-        
+
         container.style.whiteSpace = 'normal';
-        
+
         if (formatted.split('\n').length > 5 || formatted.length > 200) {
             container.innerHTML = '<div class="json-content-preview" style="max-height: 100px; overflow: hidden; margin: 0; position: relative; transition: max-height 0.3s ease;">' +
                 '<pre style="margin:0; font-size: 0.85rem; line-height: 1.4;">' + formatted + '</pre>' +
@@ -137,11 +134,11 @@ export async function showDetail(prompt) {
                 '<div style="text-align: center; margin-top: 0.5rem;">' +
                 '<button type="button" class="btn-toggle-json" style="font-size: 0.8rem; font-weight: 600; background: none; border: none; color: var(--color-primary); cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px;">Ver todo el JSON</button>' +
                 '</div>';
-            
+
             const btn = container.querySelector('.btn-toggle-json');
             const preContainer = container.querySelector('.json-content-preview');
             const fade = container.querySelector('.json-fade');
-            
+
             btn.addEventListener('click', () => {
                 if (preContainer.style.maxHeight === '100px') {
                     preContainer.style.maxHeight = '2000px';
@@ -156,7 +153,7 @@ export async function showDetail(prompt) {
         } else {
             container.innerHTML = '<pre style="margin:0; font-size: 0.85rem; line-height: 1.4;">' + formatted + '</pre>';
         }
-        
+
         toggleSection('detail-json-section', true);
     } else {
         toggleSection('detail-json-section', false);
@@ -179,7 +176,7 @@ export async function showDetail(prompt) {
     }
 
     /* Versión */
-    setTextContent('detail-version', `v${prompt.version}`);
+    // setTextContent('detail-version', `v${prompt.version}`);
 
     /* Fechas */
     setTextContent('detail-created', formatDateLong(prompt.created_at));
@@ -289,7 +286,7 @@ async function loadDetailImage(containerId, path, altText) {
     img.src = path;
     img.style.cursor = 'pointer';
     img.title = 'Haz clic para ver tamaño completo';
-    
+
     img.addEventListener('click', () => {
         let overlay = document.getElementById('img-fullscreen-overlay');
         if (!overlay) {
@@ -316,7 +313,7 @@ async function loadDetailImage(containerId, path, altText) {
             });
             document.body.appendChild(overlay);
         }
-        
+
         const fullImg = document.getElementById('img-fullscreen-content');
         fullImg.src = path;
         overlay.style.display = 'flex';
@@ -325,7 +322,7 @@ async function loadDetailImage(containerId, path, altText) {
 
     img.className = 'detail-image';
     img.loading = 'lazy';
-    
+
     img.onerror = () => {
         container.textContent = '';
         const msg = document.createElement('span');
@@ -338,33 +335,14 @@ async function loadDetailImage(containerId, path, altText) {
 }
 
 function copyAllContent() {
-    const parts = [];
-
-    const title = document.getElementById('detail-title')?.textContent;
-    if (title) parts.push(`# ${title}`);
-
-    const type = document.getElementById('detail-type')?.textContent;
-    if (type) parts.push(`Tipo: ${type}`);
-
-    const provModel = document.getElementById('detail-provider-model')?.textContent;
-    if (provModel && provModel !== '—') parts.push(`Proveedor/Modelo: ${provModel}`);
-
-    const prompt = document.getElementById('detail-prompt-text')?.textContent;
-    if (prompt) parts.push(`\n## Prompt\n${prompt}`);
-
-    const negative = document.getElementById('detail-negative-text')?.textContent;
-    if (negative) parts.push(`\n## Prompt Negativo\n${negative}`);
-
+    let textToCopy = document.getElementById('detail-prompt-text')?.textContent || '';
+    const negEl = document.getElementById('detail-negative-text');
+    if (negEl && negEl.textContent) textToCopy += `\n\n${negEl.textContent}`;
+    
     const jsonPre = document.querySelector('#detail-json-text pre');
-    if (jsonPre && jsonPre.textContent) parts.push(`\n## JSON\n\`\`\`json\n${jsonPre.textContent}\n\`\`\``);
-
-    const result = document.getElementById('detail-result-text')?.textContent;
-    if (result) parts.push(`\n## Resultado\n${result}`);
-
-    const notes = document.getElementById('detail-notes-text')?.textContent;
-    if (notes) parts.push(`\n## Notas\n${notes}`);
-
-    copyToClipboard(parts.join('\n'));
+    if (jsonPre && jsonPre.textContent) textToCopy += `\n\nJSON:\n${jsonPre.textContent}`;
+    
+    copyToClipboard(textToCopy);
 }
 
 function setTextContent(id, text) {

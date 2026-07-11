@@ -192,11 +192,6 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     const footer = document.createElement('div');
     footer.className = 'prompt-card__footer';
 
-    const version = document.createElement('span');
-    version.className = 'prompt-card__version';
-    version.textContent = `v${prompt.version}`;
-    footer.appendChild(version);
-
     const date = document.createElement('span');
     date.className = 'prompt-card__date';
     date.textContent = formatDate(prompt.updated_at);
@@ -238,16 +233,12 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     const editItem = createMenuItem('Editar', () => {
         if (callbacks.onEdit) callbacks.onEdit(prompt.id);
     });
-    const dupItem = createMenuItem('Duplicar', () => {
-        if (callbacks.onDuplicate) callbacks.onDuplicate(prompt.id);
-    });
     const delItem = createMenuItem('Eliminar', () => {
         if (callbacks.onDelete) callbacks.onDelete(prompt.id, prompt.title);
     });
     delItem.classList.add('prompt-card__menu-item--danger');
 
     menu.appendChild(editItem);
-    menu.appendChild(dupItem);
     menu.appendChild(delItem);
 
     menuBtn.addEventListener('click', (e) => {
