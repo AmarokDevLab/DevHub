@@ -18,8 +18,6 @@ import {
     toggleFavorite,
     updateLastUsed,
     loadRelationsForPrompts,
-    getDistinctProviders,
-    getDistinctModels,
     PAGE_SIZE,
 } from './services/prompts-service.js';
 import { listCategories, seedDefaultCategories } from './services/categories-service.js';
@@ -98,11 +96,9 @@ async function init() {
     await seedDefaultCategories(currentUser.id);
 
     /* 5. Cargar datos auxiliares */
-    const [catResult, tagResult, providers, models] = await Promise.all([
+    const [catResult, tagResult] = await Promise.all([
         listCategories(),
         listTags(),
-        getDistinctProviders(),
-        getDistinctModels(),
     ]);
 
     allCategories = catResult.success ? catResult.data : [];
@@ -113,8 +109,6 @@ async function init() {
         onChange: handleFilterChange,
         categories: allCategories,
         tags: allTags,
-        providers,
-        models,
     });
 
     initForm({
@@ -123,8 +117,6 @@ async function init() {
         onClose: () => {},
         categories: allCategories,
         tags: allTags,
-        providers,
-        models,
     });
 
     initDetail({

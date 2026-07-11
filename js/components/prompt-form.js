@@ -112,12 +112,9 @@ export function openForEdit(prompt, categories = [], tags = []) {
     setFieldValue('form-type', prompt.prompt_type);
     setFieldValue('form-prompt-text', prompt.prompt_text);
     setFieldValue('form-negative-prompt', prompt.negative_prompt || '');
-    setFieldValue('form-provider', prompt.provider || '');
-    setFieldValue('form-model', prompt.model_name || '');
     setFieldValue('form-json', prompt.json_content ? JSON.stringify(prompt.json_content, null, 2) : '');
     setFieldValue('form-result-text', prompt.result_text || '');
     setFieldValue('form-notes', prompt.notes || '');
-    setFieldValue('form-version', prompt.version || '1');
 
     /* Imágenes (URLs) */
     setFieldValue('form-reference-image', prompt.reference_image_path || '');
@@ -173,10 +170,9 @@ function openDrawer() {
 function resetForm() {
     const fields = [
         'form-title', 'form-type', 'form-prompt-text', 'form-negative-prompt',
-        'form-provider', 'form-model', 'form-json', 'form-result-text',
-        'form-notes', 'form-version',
+        'form-json', 'form-result-text', 'form-notes',
     ];
-    fields.forEach((id) => setFieldValue(id, id === 'form-version' ? '1' : ''));
+    fields.forEach((id) => setFieldValue(id, ''));
 
     selectedCategoryIds = [];
     selectedTagIds = [];
@@ -253,14 +249,16 @@ function bindFormEvents() {
     bindUrlPreview('reference');
     bindUrlPreview('result');
 
-    /* Secciones colapsables */
-    document.querySelectorAll('.form-section__toggle').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            const section = btn.closest('.form-section');
+    /* Secciones colapsables (clic en todo el encabezado) */
+    document.querySelectorAll('.form-section__header').forEach((header) => {
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', () => {
+            const section = header.closest('.form-section');
+            const btn = header.querySelector('.form-section__toggle');
             if (section) {
                 section.classList.toggle('form-section--collapsed');
                 const expanded = !section.classList.contains('form-section--collapsed');
-                btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                if (btn) btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
             }
         });
     });
@@ -357,12 +355,12 @@ async function handleSave() {
             prompt_type: promptType,
             prompt_text: promptText,
             negative_prompt: getFieldValue('form-negative-prompt') || null,
-            provider: getFieldValue('form-provider') || null,
-            model_name: getFieldValue('form-model') || null,
+            provider: null,
+            model_name: null,
             json_content: prepareJSONForDB(jsonStr),
             result_text: getFieldValue('form-result-text') || null,
             notes: getFieldValue('form-notes') || null,
-            version: getFieldValue('form-version') || '1',
+            version: '1',
             reference_image_path: getFieldValue('form-reference-image') || null,
             result_image_path: getFieldValue('form-result-image') || null,
         };

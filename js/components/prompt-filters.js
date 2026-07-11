@@ -12,25 +12,13 @@ import { PROMPT_TYPES, SORT_OPTIONS } from '../services/prompts-service.js';
 let currentFilters = {};
 let onFilterChange = null;
 
-/**
- * Inicializa el componente de filtros.
- * @param {object} options
- * @param {Function} options.onChange - Callback cuando cambian los filtros.
- * @param {Array}    options.categories - Categorías disponibles.
- * @param {Array}    options.tags       - Etiquetas disponibles.
- * @param {Array}    options.providers  - Proveedores utilizados.
- * @param {Array}    options.models     - Modelos utilizados.
- */
-export function initFilters({ onChange, categories = [], tags = [], providers = [], models = [] }) {
+export function initFilters({ onChange, categories = [], tags = [] }) {
     onFilterChange = onChange;
     currentFilters = {};
 
     populateSelect('filter-type', PROMPT_TYPES.map((t) => ({ value: t.value, label: t.label })));
     populateSelect('filter-category', categories.map((c) => ({ value: c.id, label: c.name })));
     populateSelect('filter-tag', tags.map((t) => ({ value: t.id, label: t.name })));
-
-    populateDatalist('provider-suggestions', providers);
-    populateDatalist('model-suggestions', models);
     populateSelect('filter-sort', SORT_OPTIONS.map((s) => ({ value: s.value, label: s.label })));
 
     bindFilterEvents();
@@ -39,11 +27,9 @@ export function initFilters({ onChange, categories = [], tags = [], providers = 
 /**
  * Actualiza las opciones de categorías y etiquetas.
  */
-export function updateFilterOptions({ categories = [], tags = [], providers = [], models = [] }) {
+export function updateFilterOptions({ categories = [], tags = [] }) {
     populateSelect('filter-category', categories.map((c) => ({ value: c.id, label: c.name })));
     populateSelect('filter-tag', tags.map((t) => ({ value: t.id, label: t.name })));
-    populateDatalist('provider-suggestions', providers);
-    populateDatalist('model-suggestions', models);
 }
 
 /**
@@ -75,10 +61,6 @@ export function clearAllFilters() {
         if (el) el.value = id === 'filter-sort' ? 'updated_desc' : '';
     });
 
-    const inputs = ['filter-provider', 'filter-model'];
-    inputs.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
     });
 
     const checkboxes = ['filter-favorite', 'filter-has-reference', 'filter-has-result', 'filter-has-json'];
@@ -128,17 +110,6 @@ function bindFilterEvents() {
         });
     }
 
-    /* Inputs de texto (proveedor, modelo) */
-    const textInputs = ['filter-provider', 'filter-model'];
-    textInputs.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.addEventListener('change', () => {
-                collectFilters();
-                if (onFilterChange) onFilterChange();
-            });
-        }
-    });
 
     /* Checkboxes */
     const checks = ['filter-favorite', 'filter-has-reference', 'filter-has-result', 'filter-has-json'];
@@ -176,12 +147,6 @@ function collectFilters() {
 
     const type = document.getElementById('filter-type')?.value;
     if (type) currentFilters.type = type;
-
-    const provider = document.getElementById('filter-provider')?.value.trim();
-    if (provider) currentFilters.provider = provider;
-
-    const model = document.getElementById('filter-model')?.value.trim();
-    if (model) currentFilters.model = model;
 
     const category = document.getElementById('filter-category')?.value;
     if (category) currentFilters.categoryId = category;

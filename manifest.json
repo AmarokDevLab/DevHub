@@ -1,0 +1,16 @@
+{
+    "name": "DevHub",
+    "short_name": "DevHub",
+    "description": "Tu base de conocimiento personal para el desarrollo.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "assets/logo.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

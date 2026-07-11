@@ -19,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    overscroll-behavior: none;
     position: relative;
 }
 
@@ -234,7 +235,7 @@ body {
     position: absolute;
     right: 12px;
     top: 50%;
-    transform: translateY(-20%);
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-muted);
