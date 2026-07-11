@@ -437,11 +437,9 @@ function hideLoader() {
 /* ---- DATOS AUXILIARES ---- */
 
 async function refreshAuxData() {
-    const [catResult, tagResult, providers, models] = await Promise.all([
+    const [catResult, tagResult] = await Promise.all([
         listCategories(),
         listTags(),
-        getDistinctProviders(),
-        getDistinctModels(),
     ]);
 
     allCategories = catResult.success ? catResult.data : allCategories;
@@ -450,14 +448,10 @@ async function refreshAuxData() {
     updateFilterOptions({
         categories: allCategories,
         tags: allTags,
-        providers,
-        models,
     });
 
     updateFormOptions({
         categories: allCategories,
         tags: allTags,
-        providers,
-        models,
     });
 }

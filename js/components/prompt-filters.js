@@ -61,7 +61,6 @@ export function clearAllFilters() {
         if (el) el.value = id === 'filter-sort' ? 'updated_desc' : '';
     });
 
-    });
 
     const checkboxes = ['filter-favorite', 'filter-has-reference', 'filter-has-result', 'filter-has-json'];
     checkboxes.forEach((id) => {
