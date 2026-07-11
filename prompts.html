@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="description"
         content="DevHub — Biblioteca privada de prompts para inteligencia artificial. Organiza, busca y reutiliza tus prompts de ChatGPT, Claude, Gemini, Midjourney y más." />
     <title>DevHub — Prompts IA</title>
@@ -53,8 +54,7 @@
                     <path d="M18 22H34M18 32H46M18 42H38" stroke="white" stroke-width="5" stroke-linecap="round" />
                     <circle cx="44" cy="22" r="4" fill="#67e8f9" />
                     <defs>
-                        <linearGradient id="nav-grad" x1="6" y1="6" x2="58" y2="58"
-                            gradientUnits="userSpaceOnUse">
+                        <linearGradient id="nav-grad" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#6366f1" />
                             <stop offset="1" stop-color="#3730a3" />
                         </linearGradient>
@@ -63,7 +63,8 @@
                 <h1 class="devhub-nav__title">DevHub</h1>
             </a>
 
-            <button type="button" class="devhub-nav__toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="devhub-nav-menu">
+            <button type="button" class="devhub-nav__toggle" aria-expanded="false" aria-label="Abrir menú"
+                aria-controls="devhub-nav-menu">
                 <span class="devhub-nav__toggle-icon"></span>
             </button>
 
@@ -75,7 +76,7 @@
                 </div>
 
                 <button type="button" id="nav-logout-btn" class="devhub-nav__logout" aria-label="Cerrar sesión">
-                    Salir
+                    Cerrar sesión
                 </button>
             </div>
         </nav>
@@ -102,9 +103,8 @@
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </span>
-                <input type="search" id="search-input" class="clay-input"
-                    placeholder="Buscar prompts..." autocomplete="off"
-                    aria-label="Buscar prompts por título, contenido, proveedor o modelo" />
+                <input type="search" id="search-input" class="clay-input" placeholder="Buscar prompts..."
+                    autocomplete="off" aria-label="Buscar prompts por título, contenido, proveedor o modelo" />
             </div>
 
             <button type="button" class="btn-filter-toggle" id="filter-toggle-btn">
@@ -226,8 +226,7 @@
 
     <!-- ========== DRAWER: FORMULARIO ========== -->
     <div class="prompt-drawer-overlay" id="form-drawer-overlay"></div>
-    <aside class="prompt-drawer" id="form-drawer" aria-hidden="true" aria-label="Formulario de prompt"
-        role="dialog">
+    <aside class="prompt-drawer" id="form-drawer" aria-hidden="true" aria-label="Formulario de prompt" role="dialog">
 
         <div class="prompt-drawer__header">
             <h3 class="prompt-drawer__title" id="form-drawer-title">Nuevo prompt</h3>
@@ -273,15 +272,13 @@
                         <div class="clay-input-wrapper">
                             <label for="form-prompt-text" class="clay-label">Prompt principal *</label>
                             <textarea id="form-prompt-text" class="clay-input" rows="5"
-                                placeholder="Escribe tu prompt aquí..." required
-                                style="height: auto;"></textarea>
+                                placeholder="Escribe tu prompt aquí..." required style="height: auto;"></textarea>
                             <div class="invalid-feedback">El prompt principal es obligatorio.</div>
                         </div>
                         <div class="clay-input-wrapper">
                             <label for="form-negative-prompt" class="clay-label">Prompt negativo</label>
                             <textarea id="form-negative-prompt" class="clay-input" rows="3"
-                                placeholder="Lo que NO quieres en el resultado..."
-                                style="height: auto;"></textarea>
+                                placeholder="Lo que NO quieres en el resultado..." style="height: auto;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -299,8 +296,8 @@
                         <div class="clay-input-wrapper">
                             <label for="form-json" class="clay-label">JSON de configuración</label>
                             <div class="json-editor-wrapper">
-                                <textarea id="form-json" class="clay-input"
-                                    rows="5" placeholder='{ "temperature": 0.7, "max_tokens": 2048 }'
+                                <textarea id="form-json" class="clay-input" rows="5"
+                                    placeholder='{ "temperature": 0.7, "max_tokens": 2048 }'
                                     style="height: auto;"></textarea>
                                 <div class="json-editor-actions">
                                     <button type="button" id="json-format-btn">Formatear</button>
@@ -324,15 +321,19 @@
                         <!-- Imagen de referencia -->
                         <div class="clay-input-wrapper">
                             <label for="form-reference-image" class="clay-label">URL de imagen de referencia</label>
-                            <input type="url" id="form-reference-image" class="clay-input" placeholder="https://ejemplo.com/imagen.jpg" maxlength="1000" />
-                            <div id="reference-image-preview" class="image-upload-preview mt-2" style="display: none;"></div>
+                            <input type="url" id="form-reference-image" class="clay-input"
+                                placeholder="https://ejemplo.com/imagen.jpg" maxlength="1000" />
+                            <div id="reference-image-preview" class="image-upload-preview mt-2" style="display: none;">
+                            </div>
                         </div>
 
                         <!-- Imagen de resultado -->
                         <div class="clay-input-wrapper">
                             <label for="form-result-image" class="clay-label">URL de imagen de resultado</label>
-                            <input type="url" id="form-result-image" class="clay-input" placeholder="https://ejemplo.com/resultado.jpg" maxlength="1000" />
-                            <div id="result-image-preview" class="image-upload-preview mt-2" style="display: none;"></div>
+                            <input type="url" id="form-result-image" class="clay-input"
+                                placeholder="https://ejemplo.com/resultado.jpg" maxlength="1000" />
+                            <div id="result-image-preview" class="image-upload-preview mt-2" style="display: none;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -349,11 +350,11 @@
                         <div class="clay-input-wrapper">
                             <label class="clay-label">Categorías</label>
                             <div class="chip-selector-container" id="category-chips-container"></div>
-                            <div class="chip-create-inline">
-                                <input type="text" id="new-category-input" class="clay-input"
-                                    placeholder="Nueva categoría" maxlength="60" />
-                                <button type="button" id="add-category-btn" class="btn-new-prompt"
-                                    style="height: 34px; padding: 0 0.75rem; font-size: 0.78rem;">Crear</button>
+                            <div class="chip-create-inline d-flex gap-2 mt-2">
+                                <input type="text" id="new-category-input" class="clay-input flex-grow-1"
+                                    placeholder="Nueva categoría" maxlength="60" style="height: 44px;" />
+                                <button type="button" id="add-category-btn" class="clay-btn"
+                                    style="height: 44px; width: auto; padding: 0 1rem; font-size: 0.85rem;">Crear</button>
                             </div>
                         </div>
 
@@ -361,11 +362,11 @@
                         <div class="clay-input-wrapper">
                             <label class="clay-label">Etiquetas</label>
                             <div class="chip-selector-container" id="tag-chips-container"></div>
-                            <div class="chip-create-inline">
-                                <input type="text" id="new-tag-input" class="clay-input"
-                                    placeholder="Nueva etiqueta" maxlength="50" />
-                                <button type="button" id="add-tag-btn" class="btn-new-prompt"
-                                    style="height: 34px; padding: 0 0.75rem; font-size: 0.78rem;">Crear</button>
+                            <div class="chip-create-inline d-flex gap-2 mt-2">
+                                <input type="text" id="new-tag-input" class="clay-input flex-grow-1"
+                                    placeholder="Nueva etiqueta" maxlength="50" style="height: 44px;" />
+                                <button type="button" id="add-tag-btn" class="clay-btn"
+                                    style="height: 44px; width: auto; padding: 0 1rem; font-size: 0.85rem;">Crear</button>
                             </div>
                         </div>
                     </div>
@@ -382,14 +383,12 @@
                         <div class="clay-input-wrapper">
                             <label for="form-result-text" class="clay-label">Resultado textual</label>
                             <textarea id="form-result-text" class="clay-input" rows="4"
-                                placeholder="Respuesta obtenida de la IA..."
-                                style="height: auto;"></textarea>
+                                placeholder="Respuesta obtenida de la IA..." style="height: auto;"></textarea>
                         </div>
                         <div class="clay-input-wrapper">
                             <label for="form-notes" class="clay-label">Notas</label>
                             <textarea id="form-notes" class="clay-input" rows="3"
-                                placeholder="Observaciones, variaciones, mejoras..."
-                                style="height: auto;"></textarea>
+                                placeholder="Observaciones, variaciones, mejoras..." style="height: auto;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -397,14 +396,11 @@
             </div>
 
             <div class="prompt-drawer__footer">
-                <button type="submit" class="clay-btn flex-grow-1" id="form-save-btn"
-                    style="height: 44px;">
+                <button type="submit" class="clay-btn flex-grow-1" id="form-save-btn" style="height: 44px;">
                     <span>Guardar prompt</span>
-                    <span class="spinner-border spinner-border-sm d-none" role="status"
-                        aria-hidden="true"></span>
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                 </button>
-                <button type="button" class="detail-action-btn" id="form-cancel-btn"
-                    style="height: 44px;"
+                <button type="button" class="detail-action-btn" id="form-cancel-btn" style="height: 44px;"
                     onclick="document.getElementById('form-close-btn').click()">
                     Cancelar
                 </button>
@@ -414,8 +410,7 @@
 
     <!-- ========== PANEL DE DETALLE ========== -->
     <div class="detail-overlay" id="detail-overlay"></div>
-    <aside class="detail-panel" id="detail-panel" aria-hidden="true" aria-label="Detalle del prompt"
-        role="dialog">
+    <aside class="detail-panel" id="detail-panel" aria-hidden="true" aria-label="Detalle del prompt" role="dialog">
 
         <div class="detail-panel__header">
             <button type="button" class="prompt-drawer__close" id="detail-close-btn"
@@ -428,24 +423,23 @@
                 <button type="button" class="detail-action-btn" id="detail-duplicate-btn">
                     📋 Duplicar
                 </button>
-                <button type="button" class="detail-action-btn detail-action-btn--danger"
-                    id="detail-delete-btn">
+                <button type="button" class="detail-action-btn detail-action-btn--danger" id="detail-delete-btn">
                     🗑️ Eliminar
                 </button>
             </div>
         </div>
 
         <div class="detail-panel__body">
-            <!-- Imagen de referencia -->
-            <div class="detail-section" id="detail-ref-img-section">
-                <div class="detail-section__label">Imagen de referencia</div>
-                <div id="detail-reference-img"></div>
-            </div>
-
-            <!-- Imagen de resultado -->
-            <div class="detail-section" id="detail-res-img-section">
-                <div class="detail-section__label">Imagen de resultado</div>
-                <div id="detail-result-img"></div>
+            <!-- Imágenes -->
+            <div class="row g-3 mb-4" id="detail-images-section">
+                <div class="col-6 detail-section mb-0" id="detail-ref-img-section">
+                    <div class="detail-section__label" style="font-size:0.75rem;">Referencia</div>
+                    <div id="detail-reference-img"></div>
+                </div>
+                <div class="col-6 detail-section mb-0" id="detail-res-img-section">
+                    <div class="detail-section__label" style="font-size:0.75rem;">Resultado</div>
+                    <div id="detail-result-img"></div>
+                </div>
             </div>
 
             <!-- Título y meta -->
@@ -479,8 +473,7 @@
                     <span>JSON</span>
                     <button type="button" class="detail-copy-btn" id="copy-json-btn">Copiar</button>
                 </div>
-                <div class="detail-section__content detail-section__content--json"
-                    id="detail-json-text"></div>
+                <div class="detail-section__content detail-section__content--json" id="detail-json-text"></div>
             </div>
 
             <!-- Resultado -->
@@ -513,10 +506,6 @@
             <!-- Meta info -->
             <div class="detail-meta-grid mt-3">
                 <div class="detail-meta-item">
-                    <div class="detail-meta-item__label">Versión</div>
-                    <div class="detail-meta-item__value" id="detail-version"></div>
-                </div>
-                <div class="detail-meta-item">
                     <div class="detail-meta-item__label">Creado</div>
                     <div class="detail-meta-item__value" id="detail-created"></div>
                 </div>
@@ -540,8 +529,8 @@
     </aside>
 
     <!-- ========== MODAL DE CONFIRMACIÓN ========== -->
-    <div class="confirm-modal-overlay" id="confirm-delete-overlay" role="dialog"
-        aria-modal="true" aria-labelledby="confirm-delete-title">
+    <div class="confirm-modal-overlay" id="confirm-delete-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="confirm-delete-title">
         <div class="confirm-modal">
             <div class="confirm-modal__icon">⚠️</div>
             <h4 class="confirm-modal__title" id="confirm-delete-title">¿Eliminar prompt?</h4>

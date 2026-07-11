@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="description"
         content="DevHub — Panel privado de tu base de conocimiento personal para desarrolladores." />
     <title>DevHub — Dashboard</title>
@@ -46,11 +47,12 @@
     <main class="container my-4 flex-grow-1 d-flex flex-column">
         <!-- CONTENEDOR PRIVADO — Oculto hasta verificar sesión -->
         <div id="private-container" class="w-100 d-none flex-grow-1 d-flex flex-column">
-            
+
             <!-- ========== BARRA DE NAVEGACIÓN ========== -->
             <nav class="devhub-nav" aria-label="Navegación principal">
                 <a href="dashboard.html" class="devhub-nav__brand" aria-label="Ir al dashboard">
-                    <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true">
                         <rect x="6" y="6" width="52" height="52" rx="18" fill="url(#nav-grad)" />
                         <path d="M18 22H34M18 32H46M18 42H38" stroke="white" stroke-width="5" stroke-linecap="round" />
                         <circle cx="44" cy="22" r="4" fill="#67e8f9" />
@@ -64,19 +66,22 @@
                     <h1 class="devhub-nav__title">DevHub</h1>
                 </a>
 
-                <button type="button" class="devhub-nav__toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="devhub-nav-menu">
+                <button type="button" class="devhub-nav__toggle" aria-expanded="false" aria-label="Abrir menú"
+                    aria-controls="devhub-nav-menu">
                     <span class="devhub-nav__toggle-icon"></span>
                 </button>
 
                 <div class="devhub-nav__menu" id="devhub-nav-menu">
                     <div class="devhub-nav__links">
-                        <a href="dashboard.html" class="devhub-nav__link devhub-nav__link--active" aria-current="page">Dashboard</a>
+                        <a href="dashboard.html" class="devhub-nav__link devhub-nav__link--active"
+                            aria-current="page">Dashboard</a>
                         <a href="prompts.html" class="devhub-nav__link">Prompts</a>
                     </div>
 
                     <button type="button" id="logout-btn" class="devhub-nav__logout" aria-label="Cerrar sesión">
-                        Salir
-                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" style="margin-left: 0.35rem; width: 0.8rem; height: 0.8rem;"></span>
+                        Cerrar sesión
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"
+                            style="margin-left: 0.35rem; width: 0.8rem; height: 0.8rem;"></span>
                     </button>
                 </div>
             </nav>
@@ -85,67 +90,67 @@
                 <div class="col-12 col-md-10 col-lg-8 px-0">
                     <div class="private-dashboard p-4 p-md-5">
 
-                    <!-- Mensaje de Bienvenida -->
-                    <div class="private-welcome-box mb-4 text-center text-md-start">
-                        <h2 class="h4 fw-bold mb-2">
-                            👋 ¡Hola,
-                            <span id="user-display-name-welcome">Desarrollador</span>!
-                        </h2>
-                        <p class="text-muted mb-0">
-                            Has ingresado exitosamente a tu espacio privado en <strong>DevHub</strong>.
-                            Los módulos de Base de Conocimiento, Roadmaps y Vault se
-                            habilitarán en las siguientes fases del desarrollo técnico.
-                        </p>
-                    </div>
-
-                    <!-- Área de notificaciones del dashboard -->
-                    <div id="dashboard-alerts" aria-live="polite" class="mb-3"></div>
-
-                    <!-- Datos de sesión -->
-                    <div class="row g-4 mb-2">
-                        <div class="col-12 col-md-6">
-                            <div class="private-info-card">
-                                <div class="text-muted small fw-bold mb-1 text-uppercase">
-                                    Nombre del Perfil
-                                </div>
-                                <div class="fs-5 fw-bold text-dark" id="user-display-name-data">
-                                    Cargando...
-                                </div>
-                            </div>
+                        <!-- Mensaje de Bienvenida -->
+                        <div class="private-welcome-box mb-4 text-center text-md-start">
+                            <h2 class="h4 fw-bold mb-2">
+                                👋 ¡Hola,
+                                <span id="user-display-name-welcome">Desarrollador</span>!
+                            </h2>
+                            <p class="text-muted mb-0">
+                                Has ingresado exitosamente a tu espacio privado en <strong>DevHub</strong>.
+                                Los módulos de Base de Conocimiento, Roadmaps y Vault se
+                                habilitarán en las siguientes fases del desarrollo técnico.
+                            </p>
                         </div>
 
-                        <div class="col-12 col-md-6">
-                            <div class="private-info-card">
-                                <div class="text-muted small fw-bold mb-1 text-uppercase">
-                                    Correo Electrónico
-                                </div>
-                                <div class="fs-5 fw-bold text-dark text-break" id="user-email-data">
-                                    Cargando...
+                        <!-- Área de notificaciones del dashboard -->
+                        <div id="dashboard-alerts" aria-live="polite" class="mb-3"></div>
+
+                        <!-- Datos de sesión -->
+                        <div class="row g-4 mb-2">
+                            <div class="col-12 col-md-6">
+                                <div class="private-info-card">
+                                    <div class="text-muted small fw-bold mb-1 text-uppercase">
+                                        Nombre del Perfil
+                                    </div>
+                                    <div class="fs-5 fw-bold text-dark" id="user-display-name-data">
+                                        Cargando...
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-12">
-                            <div
-                                class="private-info-card d-flex flex-wrap align-items-center justify-content-between gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="d-inline-block rounded-circle bg-success"
-                                        style="width: 12px; height: 12px; box-shadow: 0 0 10px var(--color-success)"
-                                        aria-hidden="true"></span>
-                                    <span class="fw-bold">Estado del Sistema</span>
+                            <div class="col-12 col-md-6">
+                                <div class="private-info-card">
+                                    <div class="text-muted small fw-bold mb-1 text-uppercase">
+                                        Correo Electrónico
+                                    </div>
+                                    <div class="fs-5 fw-bold text-dark text-break" id="user-email-data">
+                                        Cargando...
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="profile-pill" style="color: var(--color-success)">Sesión
-                                        Activa</span>
-                                    <span class="profile-pill ms-2" style="color: var(--color-primary)">Supabase
-                                        RLS</span>
+                            </div>
+
+                            <div class="col-12">
+                                <div
+                                    class="private-info-card d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="d-inline-block rounded-circle bg-success"
+                                            style="width: 12px; height: 12px; box-shadow: 0 0 10px var(--color-success)"
+                                            aria-hidden="true"></span>
+                                        <span class="fw-bold">Estado del Sistema</span>
+                                    </div>
+                                    <div>
+                                        <span class="profile-pill" style="color: var(--color-success)">Sesión
+                                            Activa</span>
+                                        <span class="profile-pill ms-2" style="color: var(--color-primary)">Supabase
+                                            RLS</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </main>
 
     <footer class="mt-auto py-4 text-center">

@@ -67,16 +67,17 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     card.setAttribute('role', 'article');
     card.setAttribute('aria-label', `Prompt: ${prompt.title}`);
 
-    /* ---- Imagen de referencia (si existe) ---- */
-    if (prompt.reference_image_path) {
+    /* ---- Imagen (Prioridad: Resultado > Referencia) ---- */
+    const displayImgUrl = prompt.result_image_path || prompt.reference_image_path;
+    if (displayImgUrl) {
         const imgWrapper = document.createElement('div');
         imgWrapper.className = 'prompt-card__image';
 
         const img = document.createElement('img');
-        img.alt = `Referencia para ${prompt.title}`;
+        img.alt = `Imagen para ${prompt.title}`;
         img.loading = 'lazy';
-        img.src = prompt.reference_image_path;
-        
+        img.src = displayImgUrl;
+
         img.onerror = () => {
             imgWrapper.remove();
         };
@@ -209,7 +210,15 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
 
     /* Botón copiar */
     const copyBtn = createActionButton('Copiar prompt', '📋', () => {
-        if (callbacks.onCopy) callbacks.onCopy(prompt.id, prompt.prompt_text);
+        let textToCopy = prompt.prompt_text;
+        if (prompt.negative_prompt) textToCopy += `\n\n${prompt.negative_prompt}`;
+        if (prompt.json_content) {
+            const jsonStr = typeof prompt.json_content === 'string'
+                ? prompt.json_content
+                : JSON.stringify(prompt.json_content, null, 2);
+            textToCopy += `\n\nJSON:\n${jsonStr}`;
+        }
+        if (callbacks.onCopy) callbacks.onCopy(prompt.id, textToCopy);
     });
     actions.appendChild(copyBtn);
 

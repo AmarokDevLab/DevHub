@@ -1303,3 +1303,13 @@
 .clay-input.is-invalid {
     border-color: var(--color-error);
 }
+
+/* ---- IMAGES DETAIL ---- */
+.detail-image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(165, 185, 212, 0.3);
+}

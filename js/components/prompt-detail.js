@@ -58,16 +58,22 @@ export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
 
     /* Copy buttons */
     document.getElementById('copy-prompt-btn')?.addEventListener('click', () => {
-        const el = document.getElementById('detail-prompt-text');
-        if (el) copyToClipboard(el.textContent);
+        let textToCopy = document.getElementById('detail-prompt-text')?.textContent || '';
+        const negEl = document.getElementById('detail-negative-text');
+        if (negEl && negEl.textContent) textToCopy += `\n\nPrompt Negativo:\n${negEl.textContent}`;
+        
+        const jsonPre = document.querySelector('#detail-json-text pre');
+        if (jsonPre && jsonPre.textContent) textToCopy += `\n\nJSON:\n${jsonPre.textContent}`;
+        
+        copyToClipboard(textToCopy);
     });
     document.getElementById('copy-negative-btn')?.addEventListener('click', () => {
         const el = document.getElementById('detail-negative-text');
         if (el) copyToClipboard(el.textContent);
     });
     document.getElementById('copy-json-btn')?.addEventListener('click', () => {
-        const el = document.getElementById('detail-json-text');
-        if (el) copyToClipboard(el.textContent);
+        const jsonPre = document.querySelector('#detail-json-text pre');
+        if (jsonPre && jsonPre.textContent) copyToClipboard(jsonPre.textContent);
     });
     document.getElementById('copy-result-btn')?.addEventListener('click', () => {
         const el = document.getElementById('detail-result-text');
@@ -119,7 +125,38 @@ export async function showDetail(prompt) {
     /* JSON */
     if (prompt.json_content) {
         const formatted = JSON.stringify(prompt.json_content, null, 2);
-        setTextContent('detail-json-text', formatted);
+        const container = document.getElementById('detail-json-text');
+        
+        container.style.whiteSpace = 'normal';
+        
+        if (formatted.split('\n').length > 5 || formatted.length > 200) {
+            container.innerHTML = '<div class="json-content-preview" style="max-height: 100px; overflow: hidden; margin: 0; position: relative; transition: max-height 0.3s ease;">' +
+                '<pre style="margin:0; font-size: 0.85rem; line-height: 1.4;">' + formatted + '</pre>' +
+                '<div class="json-fade" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, #fff);"></div>' +
+                '</div>' +
+                '<div style="text-align: center; margin-top: 0.5rem;">' +
+                '<button type="button" class="btn-toggle-json" style="font-size: 0.8rem; font-weight: 600; background: none; border: none; color: var(--color-primary); cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px;">Ver todo el JSON</button>' +
+                '</div>';
+            
+            const btn = container.querySelector('.btn-toggle-json');
+            const preContainer = container.querySelector('.json-content-preview');
+            const fade = container.querySelector('.json-fade');
+            
+            btn.addEventListener('click', () => {
+                if (preContainer.style.maxHeight === '100px') {
+                    preContainer.style.maxHeight = '2000px';
+                    fade.style.display = 'none';
+                    btn.textContent = 'Ocultar JSON';
+                } else {
+                    preContainer.style.maxHeight = '100px';
+                    fade.style.display = 'block';
+                    btn.textContent = 'Ver todo el JSON';
+                }
+            });
+        } else {
+            container.innerHTML = '<pre style="margin:0; font-size: 0.85rem; line-height: 1.4;">' + formatted + '</pre>';
+        }
+        
         toggleSection('detail-json-section', true);
     } else {
         toggleSection('detail-json-section', false);
@@ -248,8 +285,44 @@ async function loadDetailImage(containerId, path, altText) {
     container.parentElement.style.display = '';
 
     const img = document.createElement('img');
-    img.src = path;
     img.alt = altText;
+    img.src = path;
+    img.style.cursor = 'pointer';
+    img.title = 'Haz clic para ver tamaño completo';
+    
+    img.addEventListener('click', () => {
+        let overlay = document.getElementById('img-fullscreen-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'img-fullscreen-overlay';
+            Object.assign(overlay.style, {
+                position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                zIndex: '99999', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                cursor: 'zoom-out'
+            });
+            const fullImg = document.createElement('img');
+            fullImg.id = 'img-fullscreen-content';
+            Object.assign(fullImg.style, {
+                maxWidth: '90%', maxHeight: '90%',
+                objectFit: 'contain', borderRadius: '8px',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+            });
+            overlay.appendChild(fullImg);
+            overlay.addEventListener('click', () => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+            document.body.appendChild(overlay);
+        }
+        
+        const fullImg = document.getElementById('img-fullscreen-content');
+        fullImg.src = path;
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    });
+
     img.className = 'detail-image';
     img.loading = 'lazy';
     
@@ -282,8 +355,8 @@ function copyAllContent() {
     const negative = document.getElementById('detail-negative-text')?.textContent;
     if (negative) parts.push(`\n## Prompt Negativo\n${negative}`);
 
-    const json = document.getElementById('detail-json-text')?.textContent;
-    if (json) parts.push(`\n## JSON\n\`\`\`json\n${json}\n\`\`\``);
+    const jsonPre = document.querySelector('#detail-json-text pre');
+    if (jsonPre && jsonPre.textContent) parts.push(`\n## JSON\n\`\`\`json\n${jsonPre.textContent}\n\`\`\``);
 
     const result = document.getElementById('detail-result-text')?.textContent;
     if (result) parts.push(`\n## Resultado\n${result}`);
