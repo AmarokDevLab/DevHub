@@ -1432,3 +1432,26 @@ html.dark-theme .btn-load-more {
 html.dark-theme .btn-load-more:hover {
     background: rgba(51, 65, 85, 0.8);
 }
+
+html.dark-theme .detail-section__content {
+    background: var(--clay-input-bg);
+    color: var(--text-main);
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-theme .chip-selector {
+    background: var(--clay-input-bg);
+    border-color: rgba(51, 65, 85, 0.6);
+    color: var(--text-muted);
+}
+
+html.dark-theme .chip-selector:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+html.dark-theme .chip-selector--selected {
+    background: rgba(129, 140, 248, 0.1);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
