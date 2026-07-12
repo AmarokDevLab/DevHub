@@ -72,11 +72,30 @@ async function init() {
         }
     });
 
-    /* 3. Logout button */
+    /* 3. Logout button (con confirmación) */
     const logoutBtn = document.getElementById('nav-logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            logoutBtn.disabled = true;
+    const logoutOverlay = document.getElementById('logout-confirm-overlay');
+    const logoutCancelBtn = document.getElementById('logout-cancel-btn');
+    const logoutConfirmBtn = document.getElementById('logout-confirm-btn');
+
+    if (logoutBtn && logoutOverlay) {
+        logoutBtn.addEventListener('click', () => {
+            logoutOverlay.classList.add('logout-confirm-overlay--visible');
+        });
+
+        logoutCancelBtn.addEventListener('click', () => {
+            logoutOverlay.classList.remove('logout-confirm-overlay--visible');
+        });
+
+        logoutOverlay.addEventListener('click', (e) => {
+            if (e.target === logoutOverlay) {
+                logoutOverlay.classList.remove('logout-confirm-overlay--visible');
+            }
+        });
+
+        logoutConfirmBtn.addEventListener('click', async () => {
+            logoutConfirmBtn.disabled = true;
+            logoutConfirmBtn.textContent = 'Cerrando...';
             await signOut();
         });
     }
