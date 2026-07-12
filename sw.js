@@ -1,13 +1,16 @@
-const CACHE_NAME = 'devhub-cache-v3';
+const CACHE_NAME = 'devhub-cache-v4';
 const urlsToCache = [
     './',
     './index.html',
     './dashboard.html',
     './prompts.html',
+    './settings.html',
     './css/variables.css',
     './css/components.css',
     './css/auth.css',
     './css/prompts.css',
+    './css/settings.css',
+    './js/theme-service.js',
     './assets/logo.svg',
     './manifest.json'
 ];

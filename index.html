@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/auth.css" />
+
+    <!-- Aplicar tema antes del render para evitar FOUC -->
+    <script type="module">
+        import { initTheme } from './js/theme-service.js';
+        initTheme();
+    </script>
 </head>
 
 <body class="d-flex flex-column vh-100 overflow-hidden">
