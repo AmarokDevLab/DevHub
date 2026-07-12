@@ -68,6 +68,48 @@
     --transition-smooth: 0.25s ease-in-out;
 }
 
+/* ============================================================
+   DARK THEME — VARIANTE OSCURA
+   ============================================================
+   Se activa añadiendo la clase `.dark-theme` al <html>.
+   Sobrescribe todos los tokens necesarios para una experiencia
+   oscura cohesiva con el estilo claymorphic.
+   ============================================================ */
+
+html.dark-theme {
+    /* Fondo general */
+    --bg-gradient-start: #0f172a;
+    --bg-gradient-end: #1e293b;
+
+    /* Tarjeta Claymorphic principal */
+    --clay-card-bg: rgba(30, 41, 59, 0.78);
+    --clay-card-border: rgba(51, 65, 85, 0.6);
+    --clay-card-shadow-outer: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --clay-card-shadow-inner:
+        inset -6px -6px 12px rgba(51, 65, 85, 0.3),
+        inset 6px 6px 12px rgba(0, 0, 0, 0.25);
+
+    /* Inputs */
+    --clay-input-bg: #1e293b;
+    --clay-input-shadow-inner:
+        inset 2px 2px 5px rgba(0, 0, 0, 0.35),
+        inset -3px -3px 6px rgba(51, 65, 85, 0.25);
+
+    /* Colores semánticos */
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --color-primary: #818cf8;
+    --color-primary-hover: #a5b4fc;
+    --color-success: #4ade80;
+    --color-error: #f87171;
+
+    /* Alertas */
+    --clay-alert-error-bg: rgba(127, 29, 29, 0.35);
+    --clay-alert-error-border: rgba(248, 113, 113, 0.3);
+    --clay-alert-success-bg: rgba(20, 83, 45, 0.35);
+    --clay-alert-success-border: rgba(74, 222, 128, 0.3);
+}
+
 /* Accesibilidad: respetar la preferencia de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
     *,

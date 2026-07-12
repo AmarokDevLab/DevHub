@@ -1,0 +1,202 @@
+/* ============================================================
+   DEVHUB — ESTILOS DE LA PÁGINA DE AJUSTES
+   ============================================================
+   Claymorphism-consistent settings page styling.
+   ============================================================ */
+
+/* ---- LAYOUT ---- */
+
+.settings-page {
+    padding-top: 0;
+}
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.settings-header__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+    color: var(--text-main);
+}
+
+/* ---- SECCIÓN DE AJUSTES ---- */
+
+.settings-section {
+    background: var(--clay-card-bg);
+    border: 2px solid var(--clay-card-border);
+    border-radius: var(--radius-xl);
+    box-shadow:
+        var(--clay-card-shadow-outer),
+        var(--clay-card-shadow-inner);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.settings-section__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 0.35rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.settings-section__desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+}
+
+/* ---- FILA DE AJUSTE ---- */
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--clay-input-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--clay-input-shadow-inner);
+    transition: all var(--transition-smooth);
+}
+
+.settings-row:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        var(--clay-input-shadow-inner),
+        0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.settings-row__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-row__label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0 0 0.2rem 0;
+}
+
+.settings-row__hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ---- TOGGLE SWITCH ---- */
+
+.theme-toggle {
+    position: relative;
+    width: 56px;
+    height: 30px;
+    flex-shrink: 0;
+}
+
+.theme-toggle__input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.theme-toggle__slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+    box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.12),
+        inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.theme-toggle__slider::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 4px;
+    top: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.15),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Icono sol (light) */
+.theme-toggle__slider::after {
+    content: '☀️';
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* Estado activo (dark) */
+.theme-toggle__input:checked + .theme-toggle__slider {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+    box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.25),
+        inset -2px -2px 4px rgba(129, 140, 248, 0.3);
+}
+
+.theme-toggle__input:checked + .theme-toggle__slider::before {
+    transform: translateX(26px);
+    background: #e2e8f0;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.3),
+        0 0 12px rgba(129, 140, 248, 0.3);
+}
+
+/* Icono luna (dark) */
+.theme-toggle__input:checked + .theme-toggle__slider::after {
+    content: '🌙';
+    right: auto;
+    left: 7px;
+}
+
+/* Focus visible */
+.theme-toggle__input:focus-visible + .theme-toggle__slider {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+
+/* ---- RESPONSIVO ---- */
+
+@media (max-width: 575.98px) {
+    .settings-section {
+        padding: 1.25rem;
+    }
+
+    .settings-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .theme-toggle {
+        align-self: flex-end;
+    }
+}

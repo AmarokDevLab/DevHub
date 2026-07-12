@@ -198,3 +198,11 @@
         font-size: 0.85rem !important;
     }
 }
+
+/* ============================================================
+   DARK THEME — OVERRIDES MÓDULO AUTH
+   ============================================================ */
+
+html.dark-theme .auth-brand-title {
+    color: #e2e8f0;
+}

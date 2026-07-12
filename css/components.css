@@ -441,18 +441,149 @@ body {
     border: 1.5px solid rgba(239, 68, 68, 0.3);
     color: var(--color-error);
     border-radius: var(--radius-sm);
-    padding: 0.4rem 0.85rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    justify-content: center;
+    cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .devhub-nav__logout:hover {
     background: rgba(239, 68, 68, 0.08);
+}
+
+/* Contenedor de acciones (ajustes + cerrar sesión) */
+.devhub-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Botón de ajustes (engranaje) */
+.devhub-nav__settings {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.devhub-nav__settings:hover {
+    color: var(--color-primary);
+    background: rgba(79, 70, 229, 0.08);
+}
+
+.devhub-nav__settings--active {
+    color: var(--color-primary);
+    background: rgba(79, 70, 229, 0.08);
+}
+
+.devhub-nav__settings svg {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.devhub-nav__settings:hover svg {
+    transform: rotate(90deg);
+}
+
+/* ---- MODAL DE CONFIRMACIÓN DE LOGOUT ---- */
+
+.logout-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    z-index: 1060;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+}
+
+.logout-confirm-overlay--visible {
+    display: flex;
+}
+
+.logout-confirm {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    animation: confirmFadeIn 0.25s ease-out;
+}
+
+@keyframes confirmFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.logout-confirm__icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.logout-confirm__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.logout-confirm__text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.logout-confirm__actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.logout-confirm__btn {
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-fast);
+}
+
+.logout-confirm__btn--cancel {
+    background: var(--clay-input-bg);
+    color: var(--text-main);
+}
+
+.logout-confirm__btn--cancel:hover {
+    background: #dce3ed;
+}
+
+.logout-confirm__btn--confirm {
+    background: var(--clay-btn-danger-bg);
+    color: #fff;
+    box-shadow: var(--clay-btn-danger-shadow);
+}
+
+.logout-confirm__btn--confirm:hover {
+    transform: translateY(-1px);
 }
 
 /* Hamburger button */
@@ -531,8 +662,152 @@ body {
         padding: 0.75rem;
     }
 
-    .devhub-nav__logout {
+    /* Acciones en fila horizontal en mobile */
+    .devhub-nav__actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         justify-content: center;
+        gap: 0.5rem;
         margin-top: 0.5rem;
     }
+
+    .devhub-nav__logout {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .devhub-nav__settings {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid var(--clay-card-border);
+        border-radius: var(--radius-sm);
+    }
+}
+
+/* ============================================================
+   DARK THEME — OVERRIDES DE COMPONENTES
+   ============================================================
+   Estilos para elementos que usan colores hardcodeados
+   en vez de variables CSS.
+   ============================================================ */
+
+html.dark-theme .bg-blob-1 {
+    background: radial-gradient(
+        circle,
+        rgba(99, 102, 241, 0.15) 0%,
+        rgba(99, 102, 241, 0) 70%
+    );
+}
+
+html.dark-theme .bg-blob-2 {
+    background: radial-gradient(
+        circle,
+        rgba(251, 146, 60, 0.1) 0%,
+        rgba(251, 146, 60, 0) 70%
+    );
+}
+
+html.dark-theme .clay-input:focus {
+    background-color: #334155;
+    border-color: #6366f1;
+    box-shadow:
+        0 0 15px rgba(99, 102, 241, 0.15),
+        inset 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+html.dark-theme .profile-pill {
+    background-color: #1e293b;
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-theme .private-dashboard {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(51, 65, 85, 0.6);
+}
+
+html.dark-theme .private-info-card {
+    background-color: rgba(15, 23, 42, 0.7);
+    border-color: rgba(51, 65, 85, 0.5);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+html.dark-theme .private-welcome-box {
+    background-color: rgba(30, 41, 59, 0.6);
+    box-shadow: var(--clay-card-shadow-inner);
+}
+
+/* Texto que usa clases de Bootstrap con color hardcodeado */
+html.dark-theme .text-dark {
+    color: var(--text-main) !important;
+}
+
+html.dark-theme .text-muted {
+    color: var(--text-muted) !important;
+}
+
+html.dark-theme .pwd-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark-theme .devhub-nav__logout {
+    border-color: rgba(248, 113, 113, 0.25);
+}
+
+html.dark-theme .devhub-nav__logout:hover {
+    background: rgba(248, 113, 113, 0.1);
+}
+
+html.dark-theme .devhub-nav__link:hover,
+html.dark-theme .devhub-nav__link--active {
+    color: var(--color-primary);
+    background: rgba(129, 140, 248, 0.1);
+}
+
+html.dark-theme .devhub-nav__settings:hover,
+html.dark-theme .devhub-nav__settings--active {
+    background: rgba(129, 140, 248, 0.1);
+}
+
+html.dark-theme #global-loader {
+    background: linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #1e293b 100%
+    );
+}
+
+html.dark-theme .config-warning-banner {
+    background: #422006;
+    border-color: #854d0e;
+    color: #fbbf24;
+}
+
+html.dark-theme .logout-confirm {
+    background: #1e293b;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-theme .logout-confirm__btn--cancel {
+    background: #334155;
+    color: var(--text-main);
+}
+
+html.dark-theme .logout-confirm__btn--cancel:hover {
+    background: #475569;
+}
+
+/* Scrollbar en modo oscuro */
+html.dark-theme ::-webkit-scrollbar {
+    width: 8px;
+}
+html.dark-theme ::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+html.dark-theme ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+html.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
 }

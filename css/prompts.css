@@ -1313,3 +1313,122 @@
     border-radius: var(--radius-sm);
     border: 1px solid rgba(165, 185, 212, 0.3);
 }
+
+/* ============================================================
+   DARK THEME — OVERRIDES MÓDULO PROMPTS
+   ============================================================ */
+
+html.dark-theme .prompt-card {
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset -4px -4px 8px rgba(51, 65, 85, 0.25),
+        inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+html.dark-theme .prompt-card:hover {
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.4),
+        inset -4px -4px 8px rgba(51, 65, 85, 0.25),
+        inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+html.dark-theme .prompt-card__action-btn,
+html.dark-theme .prompt-card__menu-btn {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(51, 65, 85, 0.5);
+    color: var(--text-muted);
+}
+
+html.dark-theme .prompt-card__action-btn:hover,
+html.dark-theme .prompt-card__menu-btn:hover {
+    background: rgba(51, 65, 85, 0.9);
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-theme .prompt-card__menu {
+    background: #1e293b;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+html.dark-theme .prompt-card__menu-item:hover {
+    background: rgba(51, 65, 85, 0.5);
+}
+
+html.dark-theme .prompt-card__tag-chip {
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+html.dark-theme .prompt-card__footer {
+    border-top-color: rgba(51, 65, 85, 0.4);
+}
+
+html.dark-theme .skeleton-line {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+}
+
+html.dark-theme .filter-group select:focus,
+html.dark-theme .filter-group input:focus {
+    background: #334155;
+    border-color: #6366f1;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.15);
+}
+
+html.dark-theme .prompt-drawer__header {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom-color: rgba(51, 65, 85, 0.4);
+}
+
+html.dark-theme .prompt-drawer__footer {
+    background: rgba(15, 23, 42, 0.95);
+    border-top-color: rgba(51, 65, 85, 0.4);
+}
+
+html.dark-theme .prompt-drawer__close {
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-theme .prompt-drawer__close:hover {
+    background: #334155;
+}
+
+html.dark-theme .json-editor-actions button:hover {
+    background: #334155;
+}
+
+html.dark-theme .image-upload-area {
+    border-color: rgba(51, 65, 85, 0.5);
+}
+
+html.dark-theme .image-upload-area:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+html.dark-theme .detail-panel__header {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom-color: rgba(51, 65, 85, 0.4);
+}
+
+html.dark-theme .detail-image {
+    border-color: rgba(51, 65, 85, 0.4);
+}
+
+html.dark-theme .confirm-modal__content {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-color: rgba(51, 65, 85, 0.5);
+}
+
+html.dark-theme .confirm-modal__btn--cancel {
+    background: #334155;
+    color: var(--text-main);
+}
+
+html.dark-theme .btn-load-more {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(51, 65, 85, 0.5);
+}
+
+html.dark-theme .btn-load-more:hover {
+    background: rgba(51, 65, 85, 0.8);
+}
