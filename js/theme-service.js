@@ -54,11 +54,20 @@ export function setTheme(theme) {
  */
 function applyThemeToDOM(theme) {
     const root = document.documentElement;
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+    if (!metaThemeColor) {
+        metaThemeColor = document.createElement('meta');
+        metaThemeColor.name = 'theme-color';
+        document.head.appendChild(metaThemeColor);
+    }
 
     if (theme === THEMES.DARK) {
         root.classList.add('dark-theme');
+        metaThemeColor.content = '#0f172a';
     } else {
         root.classList.remove('dark-theme');
+        metaThemeColor.content = '#f3f7fc';
     }
 }
 
