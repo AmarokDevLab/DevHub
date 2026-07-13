@@ -100,13 +100,10 @@ export async function listPrompts({
             .from('ai_prompts')
             .select(LIST_COLUMNS, { count: 'exact' });
 
-        /* Búsqueda FTS */
+        /* Búsqueda */
         if (search && search.trim()) {
-            const terms = search.trim().split(/\s+/).join(' & ');
-            query = query.textSearch('search_vector', terms, {
-                type: 'plain',
-                config: 'simple',
-            });
+            const searchTerm = `%${search.trim()}%`;
+            query = query.or(`title.ilike.${searchTerm},prompt_text.ilike.${searchTerm}`);
         }
 
         /* Filtros */
