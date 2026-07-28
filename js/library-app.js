@@ -304,7 +304,8 @@ function buildCard(item) {
             ${imgHtml}
             <button type="button" class="resource-card__fav-btn${item.is_pinned ? ' resource-card__fav-btn--active' : ''}" aria-label="${item.is_pinned ? 'Quitar de favoritos' : 'Agregar a favoritos'}" aria-pressed="${item.is_pinned ? 'true' : 'false'}">${item.is_pinned ? '★' : '☆'}</button>
             <div class="resource-card__type-badge"><i class="bi ${icon}"></i> ${typeName}</div>
-            <div class="resource-card__actions-menu">
+        </div>
+        <div class="resource-card__actions-menu">
                 <button type="button" class="resource-card__btn-icon resource-card__quick-copy act-copy" title="Copiar URL" aria-label="Copiar URL">
                     <i class="bi bi-clipboard"></i>
                 </button>
@@ -320,7 +321,6 @@ function buildCard(item) {
                         <li><a class="dropdown-item text-danger act-delete" href="#"><i class="bi bi-trash me-2"></i>Eliminar</a></li>
                     </ul>
                 </div>
-            </div>
         </div>
         <div class="resource-card__body">
             <div class="resource-card__domain">${escapeHtml(domain)}</div>
@@ -764,12 +764,12 @@ function renderSelectedTags() {
     container.innerHTML = '';
     selectedTags.forEach(t => {
         const badge = document.createElement('span');
-        badge.className = 'badge bg-light text-dark border d-flex align-items-center gap-1';
+        badge.className = 'library-tag-chip';
         badge.style.cursor = 'default';
 
         const name = document.createTextNode(t.name + ' ');
         const x = document.createElement('i');
-        x.className = 'bi bi-x';
+        x.className = 'bi bi-x library-tag-chip__remove';
         x.style.cursor = 'pointer';
         x.addEventListener('click', () => {
             selectedTags = selectedTags.filter(st => st.id !== t.id);

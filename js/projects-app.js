@@ -297,7 +297,7 @@ async function handleTogglePinned(projectId, currentValue) {
         showCopyToast(result.error || 'No se pudo actualizar el proyecto', 'error');
         return;
     }
-    showCopyToast(result.data.is_pinned ? 'Proyecto destacado' : 'Proyecto sin destacar');
+    showCopyToast(result.data.is_pinned ? 'Proyecto agregado a favoritos' : 'Proyecto eliminado de favoritos');
     await Promise.all([loadProjects(), refreshStats()]);
     if (currentDetailId === projectId) await handleOpenProject(projectId);
 }

@@ -109,7 +109,8 @@
 .resource-card {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
+    min-width: 0;
     border-radius: var(--radius-lg) !important;
     padding: 0 !important;
     position: relative;
@@ -145,6 +146,7 @@ html.dark-theme .resource-card:hover {
     width: 100%;
     height: 180px;
     overflow: hidden;
+    border-radius: calc(var(--radius-lg) - 2px) calc(var(--radius-lg) - 2px) 0 0;
     background: linear-gradient(135deg, var(--clay-input-bg) 0%, var(--bg-gradient-end) 100%);
     display: flex;
     align-items: center;
@@ -188,7 +190,7 @@ html.dark-theme .resource-card:hover {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    z-index: 3;
+    z-index: 30;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
@@ -902,12 +904,15 @@ html.dark-theme .category-modal {
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(520px, 100vw);
+    width: min(520px, 100%);
+    max-width: 100%;
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
     z-index: 1050;
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
     box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -992,7 +997,7 @@ html.dark-theme .library-drawer__close:hover {
 
 @media (max-width: 767px) {
     .library-drawer {
-        width: 100vw;
+        width: 100%;
     }
 }
 
@@ -1229,12 +1234,15 @@ html.dark-theme .library-drawer__close:hover {
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(580px, 100vw);
+    width: min(580px, 100%);
+    max-width: 100%;
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
     z-index: 1070;
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
     box-shadow: -10px 0 40px rgba(0, 0, 0, 0.18);
 }
 
@@ -1694,5 +1702,100 @@ html.dark-theme .resource-card .dropdown-item.text-danger:focus {
 
     .resource-card__copy-menu-entry {
         display: list-item;
+    }
+}
+
+
+/* ============================================================
+   BIBLIOTECA V8 — CORRECCIONES MOBILE, MENÚ Y ETIQUETAS
+   ============================================================ */
+.library-page,
+.library-header,
+.library-filters-bar,
+.library-grid,
+.resource-card,
+.resource-card__body {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.resource-card:focus-within,
+.resource-card:has(.resource-card__menu-trigger[aria-expanded="true"]) {
+    z-index: 80;
+}
+
+.resource-card__actions-menu .dropdown-menu {
+    width: max-content;
+    min-width: 190px;
+    max-width: min(260px, calc(100vw - 2rem));
+    max-height: min(360px, calc(100dvh - 7rem));
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+}
+
+.library-tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    max-width: 100%;
+    padding: .28rem .42rem .28rem .62rem;
+    border: 1px solid color-mix(in srgb, var(--color-primary) 24%, var(--border-subtle));
+    border-radius: 999px;
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--surface-soft));
+    box-shadow: inset 1px 1px 2px rgba(148, 163, 184, .12);
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.library-tag-chip__remove {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
+}
+
+.library-tag-chip__remove:hover {
+    background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+}
+
+html.dark-theme .library-tag-chip {
+    color: #c7d2fe;
+    background: rgba(99, 102, 241, .18);
+    border-color: rgba(129, 140, 248, .34);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .22);
+}
+
+@media (max-width: 767.98px) {
+    .library-page {
+        width: 100%;
+        overflow-x: clip;
+        overscroll-behavior-x: none;
+        touch-action: pan-y;
+    }
+
+    .library-grid {
+        width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .resource-card__actions-menu {
+        right: .65rem;
+    }
+
+    .resource-card__actions-menu .dropdown-menu {
+        max-width: calc(100vw - 3rem);
+    }
+
+    .library-drawer,
+    .library-detail-panel {
+        width: 100%;
+        max-width: 100%;
     }
 }

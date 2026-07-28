@@ -7,6 +7,9 @@
 
 html {
     min-height: 100%;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     background-color: var(--pwa-theme-color);
     color-scheme: light;
     -webkit-tap-highlight-color: transparent;
@@ -17,6 +20,9 @@ html.dark-theme {
 }
 
 body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     background-color: var(--pwa-theme-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -24,7 +30,9 @@ body {
 
 body > main.container {
     width: 100%;
-    max-width: var(--content-max-width);
+    min-width: 0;
+    max-width: min(100%, var(--content-max-width));
+    overflow-x: clip;
 }
 
 /* El área segura mantiene el mismo color que la PWA en iOS/Android. */
@@ -41,6 +49,7 @@ body > main.container {
 .devhub-nav {
     position: sticky;
     top: 0.75rem;
+    z-index: 1000;
     isolation: isolate;
     background: color-mix(in srgb, var(--clay-card-bg) 92%, transparent);
     border-width: 2px;
@@ -289,9 +298,16 @@ body > footer {
     }
 
     .devhub-nav__menu {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100dvh - 7rem - env(safe-area-inset-top));
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
         background: var(--surface-elevated);
         border-color: var(--border-subtle);
         box-shadow: var(--shadow-floating);
+        scrollbar-width: thin;
     }
 
     .app-page-header {

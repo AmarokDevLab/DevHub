@@ -117,7 +117,7 @@ export function createProjectCard(project, handlers = {}) {
     const actionGroup = el('div', 'project-card__top-actions');
     const star = button(
         `project-card__pin${project.is_pinned ? ' project-card__pin--active' : ''}`,
-        project.is_pinned ? 'Quitar de destacados' : 'Destacar proyecto',
+        project.is_pinned ? 'Quitar de favoritos' : 'Agregar a favoritos',
         project.is_pinned ? '★' : '☆'
     );
     star.setAttribute('aria-pressed', String(Boolean(project.is_pinned)));

@@ -271,7 +271,7 @@ export async function updateProject(projectId, project, technologyIds = []) {
 }
 
 export async function toggleProjectPinned(projectId, currentValue) {
-    return updateProjectField(projectId, { is_pinned: !currentValue }, 'No se pudo actualizar el destacado.');
+    return updateProjectField(projectId, { is_pinned: !currentValue }, 'No se pudo actualizar el favorito.');
 }
 
 export async function setProjectArchived(projectId, archived) {

@@ -258,10 +258,12 @@ function renderSelectedTechnologies() {
 function populateStaticOptions() {
     const elements = getElements();
     if (elements.status && elements.status.options.length === 0) {
-        Object.entries(PROJECT_STATUS_LABELS).forEach(([value, label]) => {
-            const option = new Option(label, value);
-            elements.status.add(option);
-        });
+        Object.entries(PROJECT_STATUS_LABELS)
+            .filter(([value]) => value !== 'archived')
+            .forEach(([value, label]) => {
+                const option = new Option(label, value);
+                elements.status.add(option);
+            });
     }
     if (elements.type && elements.type.options.length === 0) {
         Object.entries(PROJECT_TYPE_LABELS).forEach(([value, label]) => {
@@ -366,7 +368,7 @@ export function openProjectEdit(project) {
     elements.client.value = project.client_name || '';
     elements.description.value = project.description || '';
     elements.type.value = project.project_type || 'personal';
-    elements.status.value = project.status || 'planning';
+    elements.status.value = project.status === 'archived' ? 'planning' : (project.status || 'planning');
     elements.color.value = project.color || '#7C6FF2';
     elements.colorText.value = (project.color || '#7C6FF2').toUpperCase();
     elements.icon.value = project.icon || 'code';

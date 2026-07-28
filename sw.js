@@ -1,4 +1,4 @@
-const CACHE_NAME = 'devhub-cache-v12';
+const CACHE_NAME = 'devhub-cache-v13';
 const APP_SHELL = [
     './',
     './index.html',

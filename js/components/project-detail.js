@@ -124,7 +124,7 @@ function renderSummary(summary, projectId) {
 
 function setActionLabels(project) {
     const pin = document.getElementById('project-detail-pin');
-    pin.textContent = project.is_pinned ? '★ Destacado' : '☆ Destacar';
+    pin.textContent = project.is_pinned ? '★ Favorito' : '☆ Agregar a favoritos';
     pin.setAttribute('aria-pressed', String(Boolean(project.is_pinned)));
     pin.classList.toggle('project-detail-action--active', Boolean(project.is_pinned));
 
