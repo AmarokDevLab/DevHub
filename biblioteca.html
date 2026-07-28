@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#f3f7fc" id="theme-color-meta" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DevHub" />
+    <meta name="msapplication-navbutton-color" content="#f3f7fc" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="DevHub — Biblioteca de recursos y referencias visuales para desarrolladores." />
+    <!-- Prevenir que extensiones como Dark Reader o Chrome Force Dark inviertan los colores nativos -->
+    <meta name="color-scheme" content="dark light" />
+    <meta name="darkreader-lock" />
+    <title>DevHub — Biblioteca</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <script src="js/theme-bootstrap.js"></script>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Tipografía Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- DevHub CSS -->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/app-shell.css" />
+    <link rel="stylesheet" href="css/library.css" />
+
+    <!-- Aplicar tema antes del render -->
+    <script type="module">
+        import { initTheme } from './js/theme-service.js';
+        initTheme();
+    </script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- LOADER -->
+    <div id="global-loader" aria-hidden="false">
+        <div class="clay-spinner" role="status">
+            <div class="clay-spinner-dot"></div>
+            <span class="visually-hidden">Verificando sesión...</span>
+        </div>
+        <div class="text-center">
+            <h2 class="h5 fw-bold mb-1">Cargando Biblioteca...</h2>
+            <p class="text-muted small mb-0">DevHub está preparando tus recursos</p>
+        </div>
+    </div>
+
+    <div class="bg-blob-1"></div>
+    <div class="bg-blob-2"></div>
+
+    <main class="container py-4 flex-grow-1 library-page" id="library-main" style="display: none;">
+        <!-- ========== BARRA DE NAVEGACIÓN ========== -->
+        <nav class="devhub-nav" aria-label="Navegación principal">
+            <a href="dashboard.html" class="devhub-nav__brand" aria-label="Ir al dashboard">
+                <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="6" y="6" width="52" height="52" rx="18" fill="url(#nav-grad)" />
+                    <path d="M18 22H34M18 32H46M18 42H38" stroke="white" stroke-width="5" stroke-linecap="round" />
+                    <circle cx="44" cy="22" r="4" fill="#67e8f9" />
+                    <defs>
+                        <linearGradient id="nav-grad" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#6366f1" />
+                            <stop offset="1" stop-color="#3730a3" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1 class="devhub-nav__title">DevHub</h1>
+            </a>
+
+            <button type="button" class="devhub-nav__toggle" aria-expanded="false" aria-label="Abrir menú" aria-controls="devhub-nav-menu">
+                <span class="devhub-nav__toggle-icon"></span>
+            </button>
+
+            <div class="devhub-nav__menu" id="devhub-nav-menu">
+                <div class="devhub-nav__links">
+                    <a href="dashboard.html" class="devhub-nav__link">Dashboard</a>
+                    <a href="proyectos.html" class="devhub-nav__link">Proyectos</a>
+                    <a href="prompts.html" class="devhub-nav__link">Prompts</a>
+                    <a href="biblioteca.html" class="devhub-nav__link devhub-nav__link--active" aria-current="page">Biblioteca</a>
+                </div>
+
+                <div class="devhub-nav__actions">
+                    <a href="settings.html" class="devhub-nav__settings" aria-label="Ajustes" title="Ajustes">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </a>
+                    <button type="button" id="nav-logout-btn" class="devhub-nav__logout" aria-label="Cerrar sesión" title="Cerrar sesión">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ========== ENCABEZADO ========== -->
+        <div class="library-header app-page-header">
+            <div class="d-flex align-items-center gap-3 app-page-header__title-group">
+                <h2 class="library-title app-page-header__title"><i class="bi bi-bookmark-star"></i> Biblioteca</h2>
+                <span class="library-count" id="results-count" aria-live="polite">0</span>
+            </div>
+            <div class="library-actions">
+                <button type="button" class="clay-btn app-primary-btn" id="new-item-btn" aria-label="Agregar recurso">
+                    <i class="bi bi-plus-lg" aria-hidden="true"></i> Agregar recurso
+                </button>
+            </div>
+        </div>
+
+        <!-- ========== TOOLBAR DE FILTROS ========== -->
+        <div class="library-filters-bar">
+            <div class="library-search-wrapper">
+                <i class="bi bi-search library-search-icon" aria-hidden="true"></i>
+                <input type="search" id="search-input" class="clay-input library-search-input" placeholder="Buscar recursos, notas o URL..." autocomplete="off" aria-label="Buscar recursos" />
+            </div>
+
+            <button type="button" class="btn-filter-toggle" id="filter-toggle-btn" aria-expanded="false" aria-controls="filters-panel">
+                <span aria-hidden="true">⚙️</span>
+                <span>Filtros</span>
+                <span class="filter-count-badge" id="filter-count-badge" aria-live="polite"></span>
+            </button>
+
+            <div class="filter-group library-sort-group">
+                <select id="filter-sort" class="clay-input" aria-label="Ordenar por">
+                    <option value="recent">Más recientes</option>
+                    <option value="updated">Actualizados recientemente</option>
+                    <option value="oldest">Más antiguos</option>
+                    <option value="az">Título A-Z</option>
+                    <option value="pinned">Favoritos primero</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========== FILTROS EXPANDIBLES ========== -->
+        <div class="filters-bar" id="filters-panel" role="region" aria-label="Filtros de búsqueda">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="filter-type">Tipo</label>
+                    <select id="filter-type">
+                        <option value="">Todos</option>
+                        <option value="article">Artículo</option>
+                        <option value="tutorial">Tutorial</option>
+                        <option value="video">Video</option>
+                        <option value="documentation">Documentación</option>
+                        <option value="component">Componente</option>
+                        <option value="design">Diseño</option>
+                        <option value="repository">Repositorio</option>
+                        <option value="tool">Herramienta</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-category">Categoría</label>
+                    <select id="filter-category">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-tag">Etiqueta</label>
+                    <select id="filter-tag">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-project">Proyecto</label>
+                    <select id="filter-project">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-date-from">Desde</label>
+                    <input type="date" id="filter-date-from">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-date-to">Hasta</label>
+                    <input type="date" id="filter-date-to">
+                </div>
+
+                <div class="filter-group filter-group--checkbox">
+                    <input type="checkbox" id="filter-pinned">
+                    <label for="filter-pinned">★ Favoritos</label>
+                </div>
+
+                <button type="button" class="btn-clear-filters" id="clear-filters-btn">
+                    <i class="bi bi-x-lg"></i> Limpiar filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- ========== NOTIFICACIONES ========== -->
+        <div id="library-alerts" aria-live="assertive"></div>
+
+        <!-- ========== GRID DE BIBLIOTECA ========== -->
+        <div id="library-grid" class="library-grid" role="feed" aria-label="Lista de recursos"></div>
+
+        <!-- Estado vacío -->
+        <div id="empty-state" class="library-empty" style="display: none;">
+            <i class="bi bi-journal-bookmark library-empty__icon"></i>
+            <h3 class="h4 fw-bold">Tu biblioteca está vacía</h3>
+            <p class="text-muted mb-4">
+                Guarda enlaces, artículos, tutoriales y referencias visuales.<br>
+                Centraliza tu conocimiento aquí.
+            </p>
+            <button type="button" class="clay-btn mx-auto" id="empty-new-item-btn" style="width: auto;">
+                <i class="bi bi-plus-lg"></i> Agregar mi primer recurso
+            </button>
+        </div>
+
+        <!-- Sin resultados -->
+        <div id="no-results-state" class="library-empty" style="display: none;">
+            <i class="bi bi-search library-empty__icon"></i>
+            <h3 class="h4 fw-bold">Sin resultados</h3>
+            <p class="text-muted mb-0">
+                No encontramos recursos con esos filtros. Intenta una búsqueda diferente.
+            </p>
+        </div>
+
+        <!-- Cargar más -->
+        <div class="text-center mt-4">
+            <button type="button" class="btn btn-outline-primary rounded-pill fw-bold px-4 py-2" id="load-more-btn" style="display: none;">
+                Cargar más <span class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- ========== PANEL DE DETALLE ========== -->
+    <div class="library-detail-overlay" id="detail-overlay"></div>
+    <aside class="library-detail-panel" id="detail-panel" aria-hidden="true" aria-label="Detalle del recurso" role="dialog">
+        <div class="library-detail-panel__header">
+            <button type="button" class="library-detail-close" id="detail-close-btn" aria-label="Cerrar detalle">✕</button>
+            <div class="library-detail-panel__actions">
+                <button type="button" class="library-detail-action" id="detail-edit-btn"><i class="bi bi-pencil"></i> Editar</button>
+                <button type="button" class="library-detail-action" id="detail-copy-url-btn"><i class="bi bi-clipboard"></i> Copiar URL</button>
+                <a class="library-detail-action library-detail-action--primary" id="detail-open-btn" href="#" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right"></i> Abrir</a>
+                <button type="button" class="library-detail-action library-detail-action--danger" id="detail-delete-btn" aria-label="Eliminar recurso"><i class="bi bi-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="library-detail-panel__body">
+            <div class="library-detail-image-wrap" id="detail-image-section">
+                <img id="detail-image" class="library-detail-image" src="" alt="Vista previa del recurso">
+            </div>
+
+            <div class="library-detail-heading">
+                <div>
+                    <div class="library-detail-kicker" id="detail-domain"></div>
+                    <h3 id="detail-title" class="library-detail-title"></h3>
+                </div>
+            </div>
+
+            <div class="library-detail-badges">
+                <span id="detail-type" class="resource-card__type-inline"></span>
+            </div>
+
+            <div class="library-detail-section">
+                <div class="library-detail-section__label">URL</div>
+                <a id="detail-url" class="library-detail-url" href="#" target="_blank" rel="noopener noreferrer"></a>
+            </div>
+
+            <div class="library-detail-section" id="detail-description-section">
+                <div class="library-detail-section__label">Descripción</div>
+                <div class="library-detail-section__content" id="detail-description"></div>
+            </div>
+
+            <div class="library-detail-section" id="detail-notes-section">
+                <div class="library-detail-section__label"><span><i class="bi bi-journal-text me-1"></i>Notas personales</span></div>
+                <div class="library-detail-section__content library-detail-section__content--notes" id="detail-notes"></div>
+            </div>
+
+            <div class="library-detail-section" id="detail-organization-section">
+                <div class="library-detail-section__label">Organización</div>
+                <div class="library-detail-organization">
+                    <div>
+                        <div class="library-detail-meta-label">Categoría</div>
+                        <div id="detail-category"></div>
+                    </div>
+                    <div>
+                        <div class="library-detail-meta-label">Etiquetas</div>
+                        <div class="d-flex flex-wrap gap-2" id="detail-tags"></div>
+                    </div>
+
+                    <div>
+                        <div class="library-detail-meta-label">Proyecto</div>
+                        <div id="detail-project"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="library-detail-meta-grid">
+                <div class="library-detail-meta-item">
+                    <div class="library-detail-meta-label">Creado</div>
+                    <div id="detail-created"></div>
+                </div>
+                <div class="library-detail-meta-item">
+                    <div class="library-detail-meta-label">Actualizado</div>
+                    <div id="detail-updated"></div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ========== DRAWER DE FORMULARIO ========== -->
+    <div class="library-drawer-overlay" id="form-drawer-overlay"></div>
+    <aside class="library-drawer" id="itemModal" aria-hidden="true" aria-label="Formulario de recurso" role="dialog">
+        <div class="library-drawer__header">
+            <h3 class="library-drawer__title" id="itemModalLabel">Nuevo Recurso</h3>
+            <button type="button" class="library-drawer__close" id="form-close-btn" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form id="item-form" novalidate>
+            <div class="library-drawer__body">
+
+                        <div class="form-section__header" style="margin-bottom: 1.15rem;">
+                            <div class="form-section__icon">
+                                <i class="bi bi-info-circle"></i>
+                            </div>
+                            <h6 class="form-section__title">Información Principal</h6>
+                        </div>
+
+                        <div class="clay-input-wrapper">
+                            <label for="form-url" class="clay-label">URL *</label>
+                            <input type="url" id="form-url" class="clay-input" placeholder="https://..." required>
+                            <div class="invalid-feedback">Ingresa una URL válida (http/https).</div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <div class="clay-input-wrapper mb-0">
+                                    <label for="form-title" class="clay-label">Título *</label>
+                                    <input type="text" id="form-title" class="clay-input" required maxlength="200">
+                                    <div class="invalid-feedback">El título es obligatorio.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="clay-input-wrapper mb-0">
+                                    <label for="form-type" class="clay-label">Tipo *</label>
+                                    <select id="form-type" class="clay-input" required>
+                                        <option value="article">Artículo</option>
+                                        <option value="tutorial">Tutorial</option>
+                                        <option value="video">Video</option>
+                                        <option value="documentation">Documentación</option>
+                                        <option value="component">Componente</option>
+                                        <option value="design">Diseño</option>
+                                        <option value="repository">Repositorio</option>
+                                        <option value="tool">Herramienta</option>
+                                        <option value="other" selected>Otro</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clay-input-wrapper">
+                            <label for="form-desc" class="clay-label">Descripción</label>
+                            <textarea id="form-desc" class="clay-input" rows="2" maxlength="2000" style="height: auto; resize: vertical;"></textarea>
+                        </div>
+
+                        <div class="form-section__header" style="margin-top: 1.5rem; margin-bottom: 1.15rem;">
+                            <div class="form-section__icon">
+                                <i class="bi bi-image"></i>
+                            </div>
+                            <h6 class="form-section__title">Imagen de vista previa</h6>
+                        </div>
+
+                        <div class="image-preview-area" id="image-preview-container">
+                            <i class="bi bi-image text-muted fs-1" id="image-preview-icon"></i>
+                            <img id="image-preview-img" src="" alt="Vista previa" style="display: none;">
+                        </div>
+
+                        <ul class="nav nav-pills mb-3" id="imageTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active py-1 px-3 fs-7 rounded-pill" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-pane" type="button" role="tab" aria-controls="url-pane" aria-selected="true">URL externa</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link py-1 px-3 fs-7 rounded-pill" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-pane" type="button" role="tab" aria-controls="upload-pane" aria-selected="false">Subir archivo</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mb-4" id="imageTabContent">
+                            <div class="tab-pane fade show active" id="url-pane" role="tabpanel" aria-labelledby="url-tab" tabindex="0">
+                                <div class="clay-input-wrapper mb-0">
+                                    <input type="url" id="form-preview-url" class="clay-input" placeholder="https://ruta-a-la-imagen.jpg">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="upload-pane" role="tabpanel" aria-labelledby="upload-tab" tabindex="0">
+                                <input class="form-control" type="file" id="form-preview-file" accept="image/jpeg,image/png,image/webp,image/gif">
+                                <div class="form-text mt-1 text-muted small">Max 5MB (JPEG, PNG, WebP)</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mb-4">
+                            <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" id="remove-image-btn" style="display: none;">
+                                <i class="bi bi-trash"></i> Eliminar imagen
+                            </button>
+                        </div>
+
+                        <!-- Sección Organización -->
+                        <div class="form-section">
+                            <div class="form-section__header">
+                                <div class="form-section__icon">
+                                    <i class="bi bi-folder2-open"></i>
+                                </div>
+                                <h6 class="form-section__title">Organización</h6>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <div class="clay-input-wrapper mb-0">
+                                        <label for="form-category" class="clay-label"><i class="bi bi-bookmark me-1"></i>Categoría</label>
+                                        <div class="form-field-with-action">
+                                            <select id="form-category" class="clay-input">
+                                                <option value="">Sin categoría / Todas</option>
+                                            </select>
+                                            <button type="button" class="form-field-action-btn" id="btn-new-category" title="Nueva categoría">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="clay-input-wrapper mb-0">
+                                        <label for="form-project" class="clay-label"><i class="bi bi-kanban me-1"></i>Proyecto relacionado</label>
+                                        <select id="form-project" class="clay-input">
+                                            <option value="">Sin proyecto</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección Etiquetas -->
+                        <div class="clay-input-wrapper">
+                            <label class="clay-label"><i class="bi bi-tags me-1"></i>Etiquetas</label>
+                            <div class="tags-container">
+                                <div id="selected-tags-container" class="tags-container__chips"></div>
+                                <div class="tags-container__input-row">
+                                    <input type="text" id="tag-input" class="tags-container__input" placeholder="Escribe y presiona Enter o +">
+                                    <button type="button" id="btn-add-tag" class="tags-container__add-btn" title="Agregar etiqueta">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notas personales -->
+                        <div class="clay-input-wrapper">
+                            <label for="form-notes" class="clay-label"><i class="bi bi-journal-text me-1"></i>Notas personales</label>
+                            <textarea id="form-notes" class="clay-input" rows="3" maxlength="10000" placeholder="Agrega tus notas sobre este recurso..." style="height: auto; resize: vertical;"></textarea>
+                        </div>
+
+            </div>
+
+            <div class="library-drawer__footer">
+                <button type="button" class="modal-save-btn flex-grow-1" id="form-save-btn">
+                    <i class="bi bi-check-lg"></i>
+                    <span>Guardar</span>
+                    <div class="spinner-border spinner-border-sm d-none ms-2" role="status"></div>
+                </button>
+                <button type="button" class="modal-cancel-btn" id="form-cancel-btn">
+                    <i class="bi bi-x-lg"></i>
+                    <span>Cancelar</span>
+                </button>
+            </div>
+        </form>
+    </aside>
+
+    <!-- ========== MINI-MODAL NUEVA CATEGORÍA ========== -->
+    <div class="category-modal-overlay" id="category-modal-overlay">
+        <div class="category-modal">
+            <div class="category-modal__header">
+                <div class="category-modal__icon">
+                    <i class="bi bi-bookmark-plus"></i>
+                </div>
+                <h6 class="category-modal__title">Nueva categoría</h6>
+            </div>
+            <div class="category-modal__body">
+                <div class="clay-input-wrapper mb-0">
+                    <label for="new-category-name" class="clay-label">Nombre</label>
+                    <input type="text" id="new-category-name" class="clay-input" placeholder="Ej: Frontend, Backend, DevOps..." maxlength="50" autocomplete="off">
+                    <div class="category-modal__error" id="new-category-error"></div>
+                </div>
+            </div>
+            <div class="category-modal__actions">
+                <button type="button" class="modal-cancel-btn" id="category-cancel-btn">
+                    <span>Cancelar</span>
+                </button>
+                <button type="button" class="modal-save-btn" id="category-save-btn">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Crear</span>
+                    <div class="spinner-border spinner-border-sm d-none ms-2" id="category-spinner" role="status"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL DE CONFIRMACIÓN DE ELIMINACIÓN ========== -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+                <div class="modal-body text-center p-4">
+                    <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-3"></i>
+                    <h5 class="fw-bold mb-2">¿Eliminar recurso?</h5>
+                    <p class="text-muted small mb-4">Esta acción no se puede deshacer.</p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" id="confirm-delete-btn">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- JavaScript Módulo -->
+    <script type="module" src="js/library-app.js"></script>
+
+</body>
+</html>

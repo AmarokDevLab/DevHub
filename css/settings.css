@@ -1,0 +1,163 @@
+/* ============================================================
+   DEVHUB — AJUSTES HOMOGENEIZADOS
+   ============================================================ */
+
+.settings-page {
+    position: relative;
+    z-index: 1;
+    padding-top: 0;
+}
+
+.settings-header {
+    margin-bottom: 1.5rem;
+}
+
+.settings-header__title {
+    margin: 0 0 0.2rem;
+}
+
+.settings-section {
+    width: min(100%, 880px);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+    background: var(--clay-card-bg);
+    border: 2px solid var(--clay-card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card), var(--clay-card-shadow-inner);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.settings-section__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.35rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    font-weight: 750;
+}
+
+.settings-section__desc {
+    max-width: 640px;
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem;
+    background: var(--clay-input-bg);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    box-shadow: var(--clay-input-shadow-inner);
+    transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.settings-row:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79, 70, 229, 0.14);
+    box-shadow: var(--clay-input-shadow-inner), 0 6px 16px rgba(51, 65, 85, 0.08);
+}
+
+.settings-row__info {
+    min-width: 0;
+    flex: 1;
+}
+
+.settings-row__label {
+    margin: 0 0 0.2rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.settings-row__hint {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.theme-toggle {
+    position: relative;
+    width: 58px;
+    height: 32px;
+    flex: 0 0 auto;
+}
+
+.theme-toggle__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.theme-toggle__slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.12), inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.theme-toggle__slider::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 4px;
+    top: 4px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.theme-toggle__slider::after {
+    content: '☀';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #475569;
+    font-size: 0.72rem;
+}
+
+.theme-toggle__input:checked + .theme-toggle__slider {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.22), 0 0 14px rgba(99, 102, 241, 0.2);
+}
+
+.theme-toggle__input:checked + .theme-toggle__slider::before {
+    transform: translateX(26px);
+}
+
+.theme-toggle__input:checked + .theme-toggle__slider::after {
+    content: '☾';
+    right: auto;
+    left: 8px;
+    color: #e0e7ff;
+}
+
+.theme-toggle__input:focus-visible + .theme-toggle__slider {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+@media (max-width: 575.98px) {
+    .settings-section {
+        width: 100%;
+    }
+
+    .settings-row {
+        align-items: center;
+    }
+}

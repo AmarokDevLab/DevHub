@@ -1,0 +1,327 @@
+/* ============================================================
+   DEVHUB — APP SHELL Y HOMOGENEIZACIÓN VISUAL
+   ============================================================
+   Capa compartida basada en el lenguaje visual del módulo
+   Prompts IA. Se carga antes del CSS específico de cada módulo.
+   ============================================================ */
+
+html {
+    min-height: 100%;
+    background-color: var(--pwa-theme-color);
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html.dark-theme {
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--pwa-theme-color);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+body > main.container {
+    width: 100%;
+    max-width: var(--content-max-width);
+}
+
+/* El área segura mantiene el mismo color que la PWA en iOS/Android. */
+@media (display-mode: standalone), (display-mode: fullscreen) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-right: env(safe-area-inset-right);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+    }
+}
+
+/* Barra superior compartida */
+.devhub-nav {
+    position: sticky;
+    top: 0.75rem;
+    isolation: isolate;
+    background: color-mix(in srgb, var(--clay-card-bg) 92%, transparent);
+    border-width: 2px;
+    box-shadow: var(--shadow-card), var(--clay-card-shadow-inner);
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.devhub-nav__brand svg {
+    flex: 0 0 auto;
+    filter: drop-shadow(0 6px 12px rgba(79, 70, 229, 0.24));
+}
+
+.devhub-nav__link,
+.devhub-nav__settings,
+.devhub-nav__logout,
+.devhub-nav__toggle {
+    min-height: 40px;
+}
+
+.devhub-nav__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.devhub-nav__link--active {
+    box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
+
+/* Encabezado común de módulos */
+.app-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.app-page-header__title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+}
+
+.app-page-header__title {
+    margin: 0;
+    color: var(--text-main);
+    font-size: clamp(1.35rem, 2vw, 1.6rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.app-page-header__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #fff;
+    background: var(--clay-btn-primary-bg);
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.24);
+    font-size: 1.05rem;
+}
+
+.app-page-header__badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    color: var(--text-muted);
+    background: var(--clay-input-bg);
+    box-shadow: inset 1px 1px 3px rgba(165, 185, 212, 0.25);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.app-primary-btn {
+    min-height: 46px;
+    width: auto;
+    padding: 0.7rem 1.3rem;
+    border: 0;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #fff;
+    background: var(--clay-btn-primary-bg);
+    box-shadow: var(--clay-btn-primary-shadow);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+.app-primary-btn:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 24px rgba(79, 70, 229, 0.35),
+        inset -4px -4px 8px rgba(0, 0, 0, 0.18),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.25);
+}
+
+.app-surface-card {
+    background: var(--clay-card-bg);
+    border: 2px solid var(--clay-card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card), var(--clay-card-shadow-inner);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Campos y controles coherentes con Prompts */
+select.clay-input,
+.filter-group select,
+.filter-group input,
+.form-control,
+.form-select {
+    color: var(--text-main);
+}
+
+select.clay-input,
+.filter-group select,
+.form-select {
+    cursor: pointer;
+}
+
+.clay-input::placeholder,
+.form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 0.65;
+}
+
+.clay-input:focus,
+.filter-group select:focus,
+.filter-group input:focus,
+.form-control:focus,
+.form-select:focus {
+    color: var(--text-main);
+}
+
+/* Bootstrap adopta el mismo sistema visual */
+.dropdown-menu,
+.modal-content {
+    color: var(--text-main);
+    background: var(--surface-elevated);
+    border-color: var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-floating);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.dropdown-item {
+    color: var(--text-main);
+    border-radius: 8px;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: var(--text-main);
+    background: var(--clay-input-bg);
+}
+
+/* Estado de carga y pies */
+#global-loader {
+    background-color: var(--pwa-theme-color);
+}
+
+.app-footer,
+body > footer {
+    color: var(--text-muted);
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Página 404 */
+.error-page {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: max(1.25rem, env(safe-area-inset-top)) 1rem max(1.25rem, env(safe-area-inset-bottom));
+}
+
+.error-card {
+    width: min(100%, 480px);
+    padding: clamp(1.5rem, 5vw, 3rem);
+    text-align: center;
+}
+
+.error-card__logo {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 10px 20px rgba(79, 70, 229, 0.25));
+}
+
+.error-card__code {
+    margin: 0 0 0.35rem;
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.error-card__title {
+    margin-bottom: 0.65rem;
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.error-card__text {
+    margin: 0 auto 1.5rem;
+    max-width: 34rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Mejora de rendimiento móvil */
+@media (max-width: 767.98px) {
+    body {
+        background-attachment: scroll;
+    }
+
+    body > main.container {
+        padding-top: 0.75rem !important;
+        padding-right: 0.9rem;
+        padding-left: 0.9rem;
+    }
+
+    .devhub-nav {
+        top: 0.5rem;
+        margin-bottom: 1.25rem;
+        border-radius: var(--radius-lg);
+    }
+
+    .devhub-nav__menu {
+        background: var(--surface-elevated);
+        border-color: var(--border-subtle);
+        box-shadow: var(--shadow-floating);
+    }
+
+    .app-page-header {
+        align-items: stretch;
+    }
+
+    .app-page-header__title-group {
+        width: 100%;
+    }
+
+    .app-page-header > .app-primary-btn,
+    .app-page-header__action {
+        width: 100%;
+    }
+}
+
+@media (max-width: 374px) {
+    .app-page-header__badge {
+        display: none;
+    }
+
+    .devhub-nav__title {
+        font-size: 1rem;
+    }
+}
+
+html.dark-theme .app-page-header__badge {
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+html.dark-theme .devhub-nav__link--active {
+    box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.12);
+}
