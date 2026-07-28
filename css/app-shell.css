@@ -40,7 +40,7 @@ body > main.container {
     body {
         padding-top: env(safe-area-inset-top);
         padding-right: env(safe-area-inset-right);
-        padding-bottom: env(safe-area-inset-bottom);
+        padding-bottom: 0;
         padding-left: env(safe-area-inset-left);
     }
 }
@@ -623,3 +623,102 @@ body > main.container {
         transition: none;
     }
 }
+
+/* ============================================================
+   V14 — FOOTER REALMENTE PEGADO AL FINAL
+   ============================================================
+   Patrón sticky-footer: el body ocupa al menos el viewport, main
+   consume únicamente el espacio disponible y el footer cierra el
+   documento sin reserva, margen ni relleno debajo.
+   ============================================================ */
+
+html {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    height: auto !important;
+    min-height: 100svh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: clip;
+    overflow-y: auto !important;
+}
+
+body > main,
+body > main.container {
+    flex: 1 0 auto;
+    min-height: 0 !important;
+}
+
+body > main.container,
+.prompts-page,
+.library-page,
+.projects-page,
+.dashboard-page,
+.settings-page,
+.error-page {
+    padding-bottom: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+.app-footer,
+body > footer.app-footer {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 0;
+    padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left) !important;
+    background: transparent;
+}
+
+.app-footer > .container {
+    width: 100%;
+    max-width: min(100%, var(--content-max-width));
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.app-footer__surface {
+    margin-bottom: 0;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+@media (display-mode: standalone), (display-mode: fullscreen) {
+    body {
+        padding-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body > main,
+    body > main.container {
+        flex: 1 0 auto;
+        min-height: 0 !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .prompts-page,
+    .library-page,
+    .projects-page,
+    .dashboard-page,
+    .settings-page,
+    .error-page {
+        min-height: 0 !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .app-footer,
+    body > footer.app-footer {
+        margin-top: auto;
+        padding-bottom: 0 !important;
+    }
+
+    .app-footer__surface {
+        padding-bottom: calc(0.72rem + env(safe-area-inset-bottom));
+    }
+}
+

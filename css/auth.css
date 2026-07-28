@@ -216,3 +216,26 @@ html.dark-theme .auth-brand-title {
     #auth-container { width: 100%; }
     #auth-container .clay-card { border-radius: var(--radius-lg); }
 }
+
+
+/* V14: el acceso comparte el sticky-footer y permite scroll real. */
+@media (max-width: 767.98px) {
+    body {
+        height: auto !important;
+        min-height: 100svh;
+        min-height: 100dvh;
+        overflow-x: clip !important;
+        overflow-y: auto !important;
+    }
+
+    main.container {
+        flex: 1 0 auto;
+        min-height: 0;
+        padding-bottom: 1rem !important;
+    }
+
+    body > footer.app-footer {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
