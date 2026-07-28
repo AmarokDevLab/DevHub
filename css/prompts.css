@@ -1514,3 +1514,60 @@ html.dark-theme .chip-selector--selected {
         min-height: 360px;
     }
 }
+
+/* V10 — Paneles de Prompts con scroll interno fiable en móvil */
+.prompt-drawer,
+.detail-panel {
+    height: var(--app-viewport-height, 100dvh);
+    max-height: var(--app-viewport-height, 100dvh);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.prompt-drawer > form {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.prompt-drawer__header,
+.prompt-drawer__footer,
+.detail-panel__header {
+    position: static;
+    flex: 0 0 auto;
+}
+
+.prompt-drawer__body,
+.detail-panel__body {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+.prompt-drawer__footer {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 767.98px) {
+    .prompts-page {
+        touch-action: auto;
+        overflow: visible;
+    }
+
+    .prompt-drawer,
+    .detail-panel {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .prompt-drawer__body,
+    .detail-panel__body {
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+}

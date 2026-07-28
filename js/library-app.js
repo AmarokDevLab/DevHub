@@ -7,6 +7,7 @@
    3. CRUD completo, filtros y paginación.
    ============================================================ */
 
+import { initMobileViewport } from './utils/mobile-viewport.js';
 import { LOGIN_URL } from './config.js';
 import { getSession, signOut, onAuthStateChange } from './auth-service.js';
 import { getCategories, createCategory } from './services/library-categories-service.js';
@@ -24,6 +25,8 @@ import { debounce } from './utils/debounce.js';
 import { copyToClipboard, showCopyToast } from './utils/clipboard.js';
 import { validateUrl, validateImageFile } from './validators.js';
 import { listProjectOptions } from './services/project-service.js';
+
+initMobileViewport();
 
 /* ---- ESTADO ---- */
 let currentUser = null;

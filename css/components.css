@@ -19,8 +19,9 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
     position: relative;
 }
 

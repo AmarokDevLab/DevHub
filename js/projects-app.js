@@ -2,6 +2,7 @@
    DEVHUB — ORQUESTADOR DEL MÓDULO PROYECTOS
    ============================================================ */
 
+import { initMobileViewport } from './utils/mobile-viewport.js';
 import { LOGIN_URL } from './config.js';
 import { getSession, signOut, onAuthStateChange } from './auth-service.js';
 import {
@@ -40,6 +41,8 @@ import {
     showProjectDetail,
     closeProjectDetail,
 } from './components/project-detail.js';
+
+initMobileViewport();
 
 let currentUser = null;
 let technologies = [];

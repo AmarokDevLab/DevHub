@@ -8,6 +8,7 @@
    4. Coordinación entre búsqueda, filtros, lista y detalle.
    ============================================================ */
 
+import { initMobileViewport } from './utils/mobile-viewport.js';
 import { LOGIN_URL } from './config.js';
 import { getSession, signOut, onAuthStateChange } from './auth-service.js';
 import {
@@ -28,6 +29,8 @@ import { createPromptCard, createSkeletonCard } from './components/prompt-card.j
 import { initFilters, updateFilterOptions, getActiveFilters, getActiveSort, clearAllFilters } from './components/prompt-filters.js';
 import { initForm, updateFormOptions, openForCreate, openForEdit, closeDrawer } from './components/prompt-form.js';
 import { initDetail, showDetail, closeDetail } from './components/prompt-detail.js';
+
+initMobileViewport();
 
 /* ---- ESTADO GLOBAL ---- */
 

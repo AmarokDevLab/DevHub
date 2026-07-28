@@ -9,7 +9,7 @@ html {
     min-height: 100%;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     background-color: var(--pwa-theme-color);
     color-scheme: light;
     -webkit-tap-highlight-color: transparent;
@@ -22,7 +22,7 @@ html.dark-theme {
 body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     background-color: var(--pwa-theme-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -340,4 +340,93 @@ html.dark-theme .app-page-header__badge {
 
 html.dark-theme .devhub-nav__link--active {
     box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.12);
+}
+
+/* ============================================================
+   V10 — SCROLL MÓVIL COMPLETO Y VIEWPORT DINÁMICO
+   ============================================================
+   El scroll vertical pertenece al documento. Los paneles laterales
+   usan su propia zona desplazable y nunca recortan su pie.
+   ============================================================ */
+
+html {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior-y: auto;
+}
+
+body {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow-y: visible;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
+}
+
+body > main.container {
+    min-height: 0;
+    overflow-y: visible;
+}
+
+.prompts-page,
+.library-page,
+.projects-page {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-y: visible;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)) !important;
+}
+
+@media (max-width: 767.98px) {
+    html,
+    body {
+        height: auto !important;
+        min-height: 100%;
+    }
+
+    body {
+        position: relative;
+        overflow-y: visible !important;
+        touch-action: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body > main.container {
+        display: block;
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100%;
+        min-height: calc(var(--app-viewport-height, 100dvh) - env(safe-area-inset-top));
+        overflow: visible;
+        padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)) !important;
+    }
+
+    .prompts-grid,
+    .library-grid,
+    .projects-grid,
+    .prompts-toolbar,
+    .library-filters-bar,
+    .projects-toolbar,
+    .filters-bar,
+    .library-filters-panel,
+    .project-filters {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .prompts-grid > *,
+    .library-grid > *,
+    .projects-grid > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .devhub-nav__menu {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+    }
 }

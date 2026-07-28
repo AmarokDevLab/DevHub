@@ -1799,3 +1799,54 @@ html.dark-theme .library-tag-chip {
         max-width: 100%;
     }
 }
+
+/* V10 — Biblioteca: documento y drawers desplazables hasta el final */
+.library-drawer,
+.library-detail-panel {
+    height: var(--app-viewport-height, 100dvh);
+    max-height: var(--app-viewport-height, 100dvh);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.library-drawer > form {
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.library-drawer__header,
+.library-drawer__footer,
+.library-detail-panel__header {
+    position: static;
+    flex: 0 0 auto;
+}
+
+.library-drawer__body,
+.library-detail-panel__body {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+.library-drawer__footer {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 767.98px) {
+    .library-page {
+        overflow: visible;
+        touch-action: auto;
+    }
+
+    .library-drawer__body,
+    .library-detail-panel__body {
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+}

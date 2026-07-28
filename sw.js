@@ -1,4 +1,4 @@
-const CACHE_NAME = 'devhub-cache-v13';
+const CACHE_NAME = 'devhub-cache-v14';
 const APP_SHELL = [
     './',
     './index.html',
@@ -41,6 +41,7 @@ const APP_SHELL = [
     './js/components/project-detail.js',
     './js/utils/debounce.js',
     './js/utils/clipboard.js',
+    './js/utils/mobile-viewport.js',
     './js/validators.js',
     './assets/projects-empty.svg',
     './assets/logo.svg',
