@@ -1,4 +1,4 @@
-const CACHE_NAME = 'devhub-cache-v19';
+const CACHE_NAME = 'devhub-cache-v20';
 const APP_SHELL = [
     './',
     './index.html',
@@ -22,6 +22,7 @@ const APP_SHELL = [
     './js/auth-service.js',
     './js/auth-ui.js',
     './js/app.js',
+    './js/coffee-loader.js',
     './js/projects-app.js',
     './js/profile-service.js',
     './js/theme-bootstrap.js',
@@ -35,6 +36,7 @@ const APP_SHELL = [
     './js/services/project-service.js',
     './js/services/technology-service.js',
     './js/services/project-summary-service.js',
+    './js/services/prompt-sharing-service.js',
     './js/components/project-card.js',
     './js/components/project-filters.js',
     './js/components/project-form.js',

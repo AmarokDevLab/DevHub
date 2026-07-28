@@ -200,10 +200,7 @@ export function toggleButtonLoading(btnId, isLoading) {
  */
 export function hideLoader() {
     if (globalLoader) {
-        setTimeout(() => {
-            globalLoader.style.opacity = '0';
-            globalLoader.style.visibility = 'hidden';
-        }, 300);
+        window.finishCoffeeLoader(globalLoader);
     }
 }
 

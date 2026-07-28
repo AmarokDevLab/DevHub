@@ -9,6 +9,7 @@ Ejecuta los scripts completos en Supabase SQL Editor, en este orden:
 3. `02-prompts.sql`
 4. `03-library.sql`
 5. `04-projects.sql`
+6. `05-prompt-sharing.sql`
 
 `00-shared-foundation.sql` resuelve la incompatibilidad histórica de `public.tags`: Prompts la definía con `normalized_name` generado, mientras que Biblioteca esperaba `normalized_name` editable, `color` y una llave única compuesta. Debe ejecutarse primero en instalaciones nuevas y también puede alinear una instalación existente.
 

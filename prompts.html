@@ -48,8 +48,8 @@
 <body class="d-flex flex-column min-vh-100">
     <!-- LOADER -->
     <div id="global-loader" aria-hidden="false">
-        <div class="clay-spinner" role="status">
-            <div class="clay-spinner-dot"></div>
+        <div class="coffee-loader" role="status">
+            <div class="coffee-loader__fill"></div>
             <span class="visually-hidden">Verificando sesión...</span>
         </div>
         <div class="text-center">
@@ -475,6 +475,9 @@
                 <button type="button" class="detail-action-btn" id="detail-copy-all-btn">
                     📄 Copiar
                 </button>
+                <button type="button" class="detail-action-btn" id="detail-share-btn">
+                    Compartir copia
+                </button>
                 <button type="button" class="detail-action-btn detail-action-btn--danger" id="detail-delete-btn">
                     🗑️ Eliminar
                 </button>
@@ -575,6 +578,34 @@
         </div>
     </aside>
 
+    <!-- ========== MODAL PARA COMPARTIR UNA COPIA ========== -->
+    <div class="confirm-modal-overlay" id="share-prompt-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="share-prompt-title">
+        <div class="confirm-modal share-prompt-modal">
+            <div class="share-prompt-modal__icon" aria-hidden="true">↗</div>
+            <h4 class="confirm-modal__title" id="share-prompt-title">Compartir una copia</h4>
+            <p class="confirm-modal__text" id="share-prompt-text">
+                El destinatario recibirá un prompt independiente que podrá editar sin modificar el original.
+            </p>
+            <label class="clay-label text-start w-100" for="share-recipient-select">Destinatario</label>
+            <select class="clay-input w-100" id="share-recipient-select">
+                <option value="">Selecciona un usuario</option>
+            </select>
+            <p class="share-prompt-modal__notice">
+                La copia incluye todo el contenido, las imágenes, las categorías y las etiquetas.
+            </p>
+            <div class="confirm-modal__actions">
+                <button type="button" class="confirm-modal__btn confirm-modal__btn--cancel"
+                    id="share-cancel-btn">Cancelar</button>
+                <button type="button" class="confirm-modal__btn share-prompt-modal__submit"
+                    id="share-confirm-btn" disabled>
+                    <span>Compartir copia</span>
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== MODAL DE CONFIRMACIÓN ========== -->
     <div class="confirm-modal-overlay" id="confirm-delete-overlay" role="dialog" aria-modal="true"
         aria-labelledby="confirm-delete-title">
@@ -611,6 +642,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/coffee-loader.js"></script>
     <script type="module" src="js/prompts-app.js"></script>
 
     <script>

@@ -23,6 +23,7 @@ import {
 } from './services/prompts-service.js';
 import { listCategories, seedDefaultCategories } from './services/categories-service.js';
 import { listTags } from './services/tags-service.js';
+import { listShareRecipients, sharePromptCopy } from './services/prompt-sharing-service.js';
 import { copyToClipboard, showCopyToast } from './utils/clipboard.js';
 import { debounce } from './utils/debounce.js';
 import { createPromptCard, createSkeletonCard } from './components/prompt-card.js';
@@ -144,6 +145,7 @@ async function init() {
     initDetail({
         onEdit: handleEditPrompt,
         onDuplicate: handleDuplicatePrompt,
+        onShare: openSharePromptModal,
         onDelete: handleRequestDelete,
         onClose: () => {},
     });
@@ -186,6 +188,19 @@ function bindEvents() {
     /* Confirmación de eliminación */
     document.getElementById('confirm-cancel-btn')?.addEventListener('click', hideDeleteModal);
     document.getElementById('confirm-delete-btn')?.addEventListener('click', confirmDelete);
+
+    document.getElementById('share-cancel-btn')?.addEventListener('click', closeSharePromptModal);
+    document.getElementById('share-confirm-btn')?.addEventListener('click', confirmSharePrompt);
+    document.getElementById('share-recipient-select')?.addEventListener('change', (event) => {
+        const submitBtn = document.getElementById('share-confirm-btn');
+        if (submitBtn) submitBtn.disabled = !event.target.value;
+    });
+    document.getElementById('share-prompt-overlay')?.addEventListener('click', (event) => {
+        if (event.target.id === 'share-prompt-overlay') closeSharePromptModal();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && pendingSharePromptId) closeSharePromptModal();
+    });
 }
 
 /* ---- CARGA DE PROMPTS ---- */
@@ -336,6 +351,84 @@ async function handleDuplicatePrompt(id) {
     }
 }
 
+/* ---- COMPARTIR COPIA ---- */
+
+let pendingSharePromptId = null;
+
+async function openSharePromptModal(id, title) {
+    pendingSharePromptId = id;
+    closeDetail();
+
+    const overlay = document.getElementById('share-prompt-overlay');
+    const select = document.getElementById('share-recipient-select');
+    const submitBtn = document.getElementById('share-confirm-btn');
+    const text = document.getElementById('share-prompt-text');
+
+    if (!overlay || !select || !submitBtn || !text) return;
+
+    text.textContent = `Envía una copia independiente de “${title}”. El destinatario podrá editarla sin modificar tu original.`;
+    select.innerHTML = '<option value="">Cargando usuarios…</option>';
+    select.disabled = true;
+    submitBtn.disabled = true;
+    overlay.classList.add('confirm-modal-overlay--visible');
+
+    const result = await listShareRecipients();
+    select.textContent = '';
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = result.success && result.data.length
+        ? 'Selecciona un usuario'
+        : 'No hay otros usuarios disponibles';
+    select.appendChild(placeholder);
+
+    if (result.success) {
+        result.data.forEach((recipient) => {
+            const option = document.createElement('option');
+            option.value = recipient.user_id;
+            option.textContent = recipient.display_name;
+            select.appendChild(option);
+        });
+    } else {
+        showCopyToast(result.error, 'error');
+    }
+
+    select.disabled = !result.success || result.data.length === 0;
+    if (!select.disabled) select.focus();
+}
+
+function closeSharePromptModal() {
+    document.getElementById('share-prompt-overlay')
+        ?.classList.remove('confirm-modal-overlay--visible');
+    pendingSharePromptId = null;
+}
+
+async function confirmSharePrompt() {
+    const select = document.getElementById('share-recipient-select');
+    const submitBtn = document.getElementById('share-confirm-btn');
+    const spinner = submitBtn?.querySelector('.spinner-border');
+    const recipientId = select?.value;
+
+    if (!pendingSharePromptId || !recipientId || !submitBtn || !select) return;
+
+    submitBtn.disabled = true;
+    select.disabled = true;
+    spinner?.classList.remove('d-none');
+
+    const result = await sharePromptCopy(pendingSharePromptId, recipientId);
+
+    spinner?.classList.add('d-none');
+    select.disabled = false;
+
+    if (result.success) {
+        closeSharePromptModal();
+        showCopyToast('Copia compartida correctamente');
+    } else {
+        submitBtn.disabled = false;
+        showCopyToast(result.error || 'No fue posible compartir la copia', 'error');
+    }
+}
+
 /* ---- ELIMINACIÓN ---- */
 
 let pendingDeleteId = null;
@@ -449,10 +542,7 @@ function showError(message) {
 
 function hideLoader() {
     if (globalLoader) {
-        setTimeout(() => {
-            globalLoader.style.opacity = '0';
-            globalLoader.style.visibility = 'hidden';
-        }, 300);
+        window.finishCoffeeLoader(globalLoader);
     }
 }
 

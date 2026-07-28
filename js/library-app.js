@@ -94,11 +94,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchItems(true);
 
         /* Mostrar contenido */
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
+        window.finishCoffeeLoader(loader, () => {
             main.style.display = 'block';
-        }, 300);
+        });
 
         /* Monitor de sesión */
         onAuthStateChange((event) => {
@@ -202,8 +200,9 @@ async function fetchItems(reset = false) {
         $('library-alerts').innerHTML = `<div class="alert alert-danger m-3"><i class="bi bi-exclamation-triangle-fill"></i> Error al cargar recursos: ${escapeHtml(error || 'Error desconocido')}</div>`;
         
         // Hide loader anyway if it's initial load
-        $('global-loader').style.display = 'none';
-        $('library-main').style.display = 'block';
+        window.finishCoffeeLoader($('global-loader'), () => {
+            $('library-main').style.display = 'block';
+        });
         return;
     }
 

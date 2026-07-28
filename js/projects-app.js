@@ -97,14 +97,7 @@ function revealApp() {
     if (dom.main) dom.main.style.display = '';
     if (!dom.loader) return;
 
-    dom.loader.setAttribute('aria-hidden', 'true');
-    dom.loader.style.pointerEvents = 'none';
-    dom.loader.style.opacity = '0';
-    dom.loader.style.visibility = 'hidden';
-
-    window.setTimeout(() => {
-        dom.loader?.remove();
-    }, 400);
+    window.finishCoffeeLoader(dom.loader, () => dom.loader?.remove());
 }
 
 function showBootError(error) {

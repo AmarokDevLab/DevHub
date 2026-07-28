@@ -13,6 +13,7 @@ import { PROMPT_TYPES } from '../services/prompts-service.js';
 let isOpen = false;
 let onEditCallback = null;
 let onDuplicateCallback = null;
+let onShareCallback = null;
 let onDeleteCallback = null;
 let onCloseCallback = null;
 
@@ -24,9 +25,10 @@ let onCloseCallback = null;
  * @param {Function} options.onDelete
  * @param {Function} options.onClose
  */
-export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
+export function initDetail({ onEdit, onDuplicate, onShare, onDelete, onClose }) {
     onEditCallback = onEdit;
     onDuplicateCallback = onDuplicate;
+    onShareCallback = onShare;
     onDeleteCallback = onDelete;
     onCloseCallback = onClose;
 
@@ -49,6 +51,13 @@ export function initDetail({ onEdit, onDuplicate, onDelete, onClose }) {
     const copyAllHeaderBtn = document.getElementById('detail-copy-all-btn');
     if (copyAllHeaderBtn) copyAllHeaderBtn.addEventListener('click', () => {
         copyAllContent();
+    });
+
+    const shareBtn = document.getElementById('detail-share-btn');
+    if (shareBtn) shareBtn.addEventListener('click', () => {
+        if (onShareCallback && currentPromptId) {
+            onShareCallback(currentPromptId, currentPromptTitle);
+        }
     });
 
     const delBtn = document.getElementById('detail-delete-btn');

@@ -47,8 +47,8 @@
 <body class="d-flex flex-column min-vh-100">
     <!-- LOADER -->
     <div id="global-loader" aria-hidden="false">
-        <div class="clay-spinner" role="status">
-            <div class="clay-spinner-dot"></div>
+        <div class="coffee-loader" role="status">
+            <div class="coffee-loader__fill"></div>
             <span class="visually-hidden">Verificando sesión...</span>
         </div>
         <div class="text-center">
@@ -188,6 +188,7 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/coffee-loader.js"></script>
     <script type="module">
         import { LOGIN_URL } from './js/config.js';
         import { getSession, signOut, onAuthStateChange } from './js/auth-service.js';
@@ -199,10 +200,7 @@
         /* ---- UTILIDADES ---- */
 
         function hideLoader() {
-            setTimeout(() => {
-                globalLoader.style.opacity = '0';
-                globalLoader.style.visibility = 'hidden';
-            }, 300);
+            window.finishCoffeeLoader(globalLoader);
         }
 
         function redirectToLogin() {
