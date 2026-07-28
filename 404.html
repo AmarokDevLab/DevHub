@@ -30,7 +30,7 @@
         initTheme();
     </script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <main class="error-page">
         <section class="error-card app-surface-card" aria-labelledby="error-title">
             <img class="error-card__logo" src="assets/logo.svg" alt="" aria-hidden="true" />
@@ -40,6 +40,23 @@
             <a id="back-link" href="index.html" class="app-primary-btn">Volver al inicio</a>
         </section>
     </main>
+
+    <footer class="app-footer" aria-label="Pie de página">
+        <div class="container">
+            <div class="app-footer__surface">
+                <a class="app-footer__brand" href="index.html" aria-label="Ir al inicio de DevHub">
+                    <img class="app-footer__logo" src="assets/logo.svg" alt="" aria-hidden="true" />
+                    <span>DevHub</span>
+                </a>
+                <p class="app-footer__copy">
+                    <span>&copy; 2026</span>
+                    <span class="app-footer__separator" aria-hidden="true">•</span>
+                    <span>Base de conocimiento personal</span>
+                </p>
+                <span class="app-footer__module">Página no encontrada</span>
+            </div>
+        </div>
+    </footer>
     <script>
         /*
          * Compatibilidad con GitHub Pages:

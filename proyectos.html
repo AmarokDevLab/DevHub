@@ -487,12 +487,21 @@
       </nav>
     </main>
 
-    <footer class="app-footer mt-auto py-3 text-center">
-      <div class="container">
-        <p class="text-muted small mb-0">
-          DevHub &copy; 2026 — Tu espacio de desarrollo
-        </p>
-      </div>
+    <footer class="app-footer" aria-label="Pie de página">
+        <div class="container">
+            <div class="app-footer__surface">
+                <a class="app-footer__brand" href="dashboard.html" aria-label="Ir al inicio de DevHub">
+                    <img class="app-footer__logo" src="assets/logo.svg" alt="" aria-hidden="true" />
+                    <span>DevHub</span>
+                </a>
+                <p class="app-footer__copy">
+                    <span>&copy; 2026</span>
+                    <span class="app-footer__separator" aria-hidden="true">•</span>
+                    <span>Tu espacio de desarrollo</span>
+                </p>
+                <span class="app-footer__module">Proyectos</span>
+            </div>
+        </div>
     </footer>
 
     <div class="project-overlay" id="project-detail-overlay"></div>

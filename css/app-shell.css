@@ -430,3 +430,196 @@ body > main.container {
         overscroll-behavior-y: contain;
     }
 }
+
+/* ============================================================
+   V13 — PIE DE PÁGINA UNIFICADO
+   ============================================================
+   El pie utiliza el mismo lenguaje visual Claymorphism del shell,
+   respeta las áreas seguras de la PWA y evita espacios vacíos
+   excesivos al final de la vista móvil.
+   ============================================================ */
+
+.app-footer {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-top: clamp(0.9rem, 2vw, 1.5rem);
+    padding: 0 env(safe-area-inset-right)
+        max(0.9rem, env(safe-area-inset-bottom))
+        env(safe-area-inset-left);
+    color: var(--text-muted);
+}
+
+.app-footer > .container {
+    width: 100%;
+    max-width: min(100%, var(--content-max-width));
+}
+
+.app-footer__surface {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: 64px;
+    padding: 0.75rem 1rem;
+    overflow: hidden;
+    color: var(--text-muted);
+    background: color-mix(in srgb, var(--clay-card-bg) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--clay-card-border) 78%, transparent);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 10px 28px rgba(15, 23, 42, 0.08),
+        var(--clay-card-shadow-inner);
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+}
+
+.app-footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.app-footer__brand:hover,
+.app-footer__brand:focus-visible {
+    color: var(--color-primary);
+}
+
+.app-footer__logo {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 5px 10px rgba(79, 70, 229, 0.22));
+}
+
+.app-footer__copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 0;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.app-footer__separator {
+    color: color-mix(in srgb, var(--color-primary) 72%, var(--text-muted));
+}
+
+.app-footer__module {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0.35rem 0.72rem;
+    border-radius: 999px;
+    color: var(--text-main);
+    background: var(--clay-input-bg);
+    box-shadow: inset 1px 1px 3px rgba(15, 23, 42, 0.08);
+    font-size: 0.74rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+html.dark-theme .app-footer__surface {
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow:
+        0 14px 32px rgba(2, 6, 23, 0.28),
+        var(--clay-card-shadow-inner);
+}
+
+html.dark-theme .app-footer__module {
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+/* El documento, no el main, administra el alto disponible. */
+body > main.container {
+    flex: 1 0 auto;
+}
+
+.error-page {
+    flex: 1 0 auto;
+    min-height: 0;
+}
+
+@media (max-width: 767.98px) {
+    body > main.container {
+        flex: 1 0 auto;
+        min-height: 0;
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+    }
+
+    .prompts-page,
+    .library-page,
+    .projects-page {
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+    }
+
+    .app-footer {
+        margin-top: 0.35rem;
+        padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    }
+
+    .app-footer > .container {
+        padding-right: 0.9rem;
+        padding-left: 0.9rem;
+    }
+
+    .app-footer__surface {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "brand module"
+            "copy copy";
+        gap: 0.45rem 0.75rem;
+        min-height: 0;
+        padding: 0.72rem 0.8rem;
+        border-radius: 18px;
+    }
+
+    .app-footer__brand {
+        grid-area: brand;
+        justify-self: start;
+    }
+
+    .app-footer__copy {
+        grid-area: copy;
+        justify-self: stretch;
+        font-size: 0.72rem;
+    }
+
+    .app-footer__module {
+        grid-area: module;
+        justify-self: end;
+        max-width: 48vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 374px) {
+    .app-footer__copy {
+        gap: 0.3rem;
+        font-size: 0.68rem;
+    }
+
+    .app-footer__module {
+        padding-inline: 0.58rem;
+        font-size: 0.68rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-footer__brand {
+        transition: none;
+    }
+}
