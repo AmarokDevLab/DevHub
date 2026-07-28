@@ -722,3 +722,59 @@ body > footer.app-footer {
     }
 }
 
+
+/* ============================================================
+   V15 — CIERRE REAL DEL DOCUMENTO EN MÓVIL
+   ============================================================
+   Los blobs decorativos estaban posicionados de forma absoluta
+   respecto al body y su desplazamiento negativo ampliaba el área
+   desplazable después del footer. Al fijarlos al viewport dejan
+   de participar en el alto del documento.
+   ============================================================ */
+
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+}
+
+body {
+    margin: 0;
+    padding-bottom: 0 !important;
+    overflow-x: clip;
+}
+
+/* Los fondos son puramente visuales y nunca deben crear scroll. */
+body > .bg-blob-1,
+body > .bg-blob-2,
+.bg-blob-1,
+.bg-blob-2 {
+    position: fixed !important;
+    pointer-events: none;
+    contain: layout paint;
+}
+
+/* El contenido termina exactamente en el footer. */
+.app-footer,
+body > footer.app-footer {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.app-footer > .container {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.app-footer__surface {
+    margin-bottom: 0 !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* El safe-area inferior queda dentro del footer, no después de él. */
+@media (max-width: 767.98px) {
+    .app-footer__surface {
+        padding-bottom: calc(0.78rem + env(safe-area-inset-bottom)) !important;
+    }
+}
