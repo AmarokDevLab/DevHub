@@ -297,18 +297,8 @@ export async function deleteLibraryItem(userId, itemId) {
     }
 }
 
-/**
- * Toggle pin status.
- */
 export async function togglePinStatus(userId, itemId, newState) {
     return updateLibraryItem(userId, itemId, { is_pinned: newState });
-}
-
-/**
- * Toggle archive status.
- */
-export async function toggleArchiveStatus(userId, itemId, newState) {
-    return updateLibraryItem(userId, itemId, { is_archived: newState });
 }
 
 export { PAGE_SIZE };

@@ -125,8 +125,7 @@ export async function listProjects({
         if (filters.startFrom) query = query.gte('start_date', filters.startFrom);
         if (filters.startTo) query = query.lte('start_date', filters.startTo);
 
-        if (filters.archived === 'only') query = query.eq('is_archived', true);
-        else if (filters.archived !== 'all') query = query.eq('is_archived', false);
+        query = query.eq('is_archived', false);
 
         query = applyOrdering(query, sort);
 
@@ -270,16 +269,6 @@ export async function updateProject(projectId, project, technologyIds = []) {
     }
 }
 
-export async function toggleProjectPinned(projectId, currentValue) {
-    return updateProjectField(projectId, { is_pinned: !currentValue }, 'No se pudo actualizar el favorito.');
-}
-
-export async function setProjectArchived(projectId, archived) {
-    return updateProjectField(projectId, { is_archived: Boolean(archived) }, archived
-        ? 'No se pudo archivar el proyecto.'
-        : 'No se pudo restaurar el proyecto.');
-}
-
 async function updateProjectField(projectId, changes, errorMessage) {
     try {
         const user = await requireUser();
@@ -296,6 +285,10 @@ async function updateProjectField(projectId, changes, errorMessage) {
     } catch (error) {
         return fail(error, errorMessage);
     }
+}
+
+export async function toggleProjectPinned(projectId, currentValue) {
+    return updateProjectField(projectId, { is_pinned: !currentValue }, 'No se pudo actualizar el favorito.');
 }
 
 export async function deleteProject(projectId) {

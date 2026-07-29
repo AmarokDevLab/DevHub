@@ -90,7 +90,7 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     const body = document.createElement('div');
     body.className = 'prompt-card__body';
 
-    /* Header: tipo badge + favorito */
+    /* Header: tipo y favorito */
     const header = document.createElement('div');
     header.className = 'prompt-card__header';
 
@@ -99,7 +99,6 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     typeBadge.textContent = getTypeLabel(prompt.prompt_type);
     header.appendChild(typeBadge);
 
-    /* Botón favorito */
     const favBtn = document.createElement('button');
     favBtn.className = 'prompt-card__fav-btn';
     favBtn.type = 'button';
@@ -107,14 +106,12 @@ export function createPromptCard(prompt, categories = [], tags = [], callbacks =
     favBtn.setAttribute('aria-pressed', prompt.is_favorite ? 'true' : 'false');
     favBtn.textContent = prompt.is_favorite ? '★' : '☆';
     if (prompt.is_favorite) favBtn.classList.add('prompt-card__fav-btn--active');
-
-    favBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (callbacks.onToggleFavorite) {
-            callbacks.onToggleFavorite(prompt.id, prompt.is_favorite);
-        }
+    favBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        callbacks.onToggleFavorite?.(prompt.id, prompt.is_favorite);
     });
     header.appendChild(favBtn);
+
     body.appendChild(header);
 
     /* Título */

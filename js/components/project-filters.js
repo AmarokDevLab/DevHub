@@ -28,7 +28,6 @@ export function initProjectFilters({ onChange, technologies = [] } = {}) {
         type: document.getElementById('filter-project-type'),
         technology: document.getElementById('filter-project-technology'),
         pinned: document.getElementById('filter-project-pinned'),
-        archived: document.getElementById('filter-project-archived'),
         startFrom: document.getElementById('filter-project-start-from'),
         startTo: document.getElementById('filter-project-start-to'),
         sort: document.getElementById('project-sort'),
@@ -39,7 +38,7 @@ export function initProjectFilters({ onChange, technologies = [] } = {}) {
     updateTechnologyFilter(technologies);
     restoreFiltersFromUrl();
 
-    [elements.status, elements.type, elements.technology, elements.pinned, elements.archived, elements.startFrom, elements.startTo, elements.sort]
+    [elements.status, elements.type, elements.technology, elements.pinned, elements.startFrom, elements.startTo, elements.sort]
         .filter(Boolean)
         .forEach(control => control.addEventListener('change', notify));
 
@@ -71,7 +70,6 @@ export function getProjectFilters() {
         projectType: elements.type?.value || '',
         technologyId: elements.technology?.value || '',
         isPinned: Boolean(elements.pinned?.checked),
-        archived: elements.archived?.value || 'active',
         startFrom: elements.startFrom?.value || '',
         startTo: elements.startTo?.value || '',
     };
@@ -86,7 +84,6 @@ export function clearProjectFilters() {
     if (elements.type) elements.type.value = '';
     if (elements.technology) elements.technology.value = '';
     if (elements.pinned) elements.pinned.checked = false;
-    if (elements.archived) elements.archived.value = 'active';
     if (elements.startFrom) elements.startFrom.value = '';
     if (elements.startTo) elements.startTo.value = '';
     if (elements.sort) elements.sort.value = 'updated_desc';
@@ -102,7 +99,6 @@ export function persistFiltersToUrl(search = '', page = 0, view = 'grid') {
         type: filters.projectType,
         technology: filters.technologyId,
         pinned: filters.isPinned ? '1' : '',
-        archived: filters.archived !== 'active' ? filters.archived : '',
         start_from: filters.startFrom,
         start_to: filters.startTo,
         sort: getProjectSort() !== 'updated_desc' ? getProjectSort() : '',
@@ -123,7 +119,6 @@ export function restoreFiltersFromUrl() {
     if (elements.type) elements.type.value = params.get('type') || '';
     if (elements.technology) elements.technology.value = params.get('technology') || '';
     if (elements.pinned) elements.pinned.checked = params.get('pinned') === '1';
-    if (elements.archived) elements.archived.value = params.get('archived') || 'active';
     if (elements.startFrom) elements.startFrom.value = params.get('start_from') || '';
     if (elements.startTo) elements.startTo.value = params.get('start_to') || '';
     if (elements.sort) elements.sort.value = params.get('sort') || 'updated_desc';

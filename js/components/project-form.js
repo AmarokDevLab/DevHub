@@ -44,8 +44,6 @@ function getElements() {
         production: document.getElementById('project-production-url'),
         testing: document.getElementById('project-testing-url'),
         domain: document.getElementById('project-domain'),
-        pinned: document.getElementById('project-is-pinned'),
-        archived: document.getElementById('project-is-archived'),
         technologySearch: document.getElementById('project-technology-search'),
         technologyList: document.getElementById('project-technology-list'),
         selectedTechnologies: document.getElementById('project-selected-technologies'),
@@ -164,7 +162,6 @@ function validate(elements) {
 
 function buildPayload(elements) {
     const status = elements.status.value;
-    const archived = elements.archived.checked || status === 'archived';
     return {
         name: elements.name.value.trim(),
         client_name: elements.client.value.trim() || null,
@@ -179,8 +176,6 @@ function buildPayload(elements) {
         domain: normalizeDomain(elements.domain.value),
         color: elements.colorText.value.toUpperCase(),
         icon: elements.icon.value,
-        is_pinned: elements.pinned.checked,
-        is_archived: archived,
     };
 }
 
@@ -378,8 +373,6 @@ export function openProjectEdit(project) {
     elements.production.value = project.production_url || '';
     elements.testing.value = project.testing_url || '';
     elements.domain.value = project.domain || '';
-    elements.pinned.checked = Boolean(project.is_pinned);
-    elements.archived.checked = Boolean(project.is_archived);
     selectedTechnologyIds = new Set((project.technologies || []).map(item => item.id));
     elements.descriptionCount.textContent = `${elements.description.value.length} / 3000`;
     renderTechnologyList();
@@ -455,8 +448,6 @@ export function initProjectForm({ onSave, onCreateTechnology, technologies: init
                 project.testing_url = null;
                 project.domain = null;
                 project.icon = 'code';
-                project.is_pinned = false;
-                project.is_archived = false;
             }
             const result = await callbacks.onSave?.({
                 mode: editingProjectId ? 'edit' : 'create',

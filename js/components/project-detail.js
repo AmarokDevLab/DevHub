@@ -122,16 +122,6 @@ function renderSummary(summary, projectId) {
     renderLibraryItems(summary?.library?.items || [], projectId);
 }
 
-function setActionLabels(project) {
-    const pin = document.getElementById('project-detail-pin');
-    pin.textContent = project.is_pinned ? '★ Favorito' : '☆ Agregar a favoritos';
-    pin.setAttribute('aria-pressed', String(Boolean(project.is_pinned)));
-    pin.classList.toggle('project-detail-action--active', Boolean(project.is_pinned));
-
-    const archive = document.getElementById('project-detail-archive');
-    archive.textContent = project.is_archived ? 'Restaurar' : 'Archivar';
-}
-
 export function showProjectDetail(project, summary = {}) {
     currentProject = project;
     const drawer = document.getElementById('project-detail-drawer');
@@ -150,12 +140,9 @@ export function showProjectDetail(project, summary = {}) {
     document.getElementById('project-detail-end').textContent = formatDate(project.end_date);
     document.getElementById('project-detail-created').textContent = formatDate(project.created_at, true);
     document.getElementById('project-detail-updated').textContent = formatDate(project.updated_at, true);
-    document.getElementById('project-detail-archived').hidden = !project.is_archived;
-
     renderTechnologies(project);
     renderLinks(project);
     renderSummary(summary, project.id);
-    setActionLabels(project);
 
     overlay.classList.add('project-overlay--visible');
     drawer.classList.add('project-detail--open');
@@ -179,20 +166,16 @@ export function updateOpenProjectDetail(project, summary) {
     if (currentProject?.id === project.id) showProjectDetail(project, summary);
 }
 
-export function initProjectDetail({ onEdit, onTogglePinned, onArchive, onDelete } = {}) {
-    callbacks = { onEdit, onTogglePinned, onArchive, onDelete };
+export function initProjectDetail({ onEdit, onDelete } = {}) {
+    callbacks = { onEdit, onDelete };
     const close = document.getElementById('project-detail-close');
     const overlay = document.getElementById('project-detail-overlay');
     const edit = document.getElementById('project-detail-edit');
-    const pin = document.getElementById('project-detail-pin');
-    const archive = document.getElementById('project-detail-archive');
     const remove = document.getElementById('project-detail-delete');
 
     close.addEventListener('click', closeProjectDetail);
     overlay.addEventListener('click', closeProjectDetail);
     edit.addEventListener('click', () => currentProject && callbacks.onEdit?.(currentProject.id));
-    pin.addEventListener('click', () => currentProject && callbacks.onTogglePinned?.(currentProject.id, currentProject.is_pinned));
-    archive.addEventListener('click', () => currentProject && callbacks.onArchive?.(currentProject.id, !currentProject.is_archived));
     remove.addEventListener('click', () => currentProject && callbacks.onDelete?.(currentProject.id, currentProject.name));
 
     document.addEventListener('keydown', event => {

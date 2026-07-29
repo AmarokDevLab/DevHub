@@ -13,7 +13,6 @@ import {
     createProject,
     updateProject,
     toggleProjectPinned,
-    setProjectArchived,
     deleteProject,
 } from './services/project-service.js';
 import { listTechnologies, createTechnology } from './services/technology-service.js';
@@ -185,7 +184,6 @@ function hasActiveQuery() {
         || filters.projectType
         || filters.technologyId
         || filters.isPinned
-        || filters.archived !== 'active'
         || filters.startFrom
         || filters.startTo
     );
@@ -276,7 +274,6 @@ async function loadProjects() {
                 onOpen: handleOpenProject,
                 onEdit: handleEditProject,
                 onTogglePinned: handleTogglePinned,
-                onArchive: handleArchiveProject,
                 onDelete: requestDelete,
                 onOpenUrl: openExternalUrl,
                 onCopyUrl: handleCopyProjectUrl,
@@ -355,20 +352,6 @@ async function handleTogglePinned(projectId, currentValue) {
         showCopyToast(result.error || 'No se pudo actualizar el proyecto', 'error');
         return;
     }
-    showCopyToast(result.data.is_pinned ? 'Proyecto agregado a favoritos' : 'Proyecto eliminado de favoritos');
-    await Promise.all([loadProjects(), refreshStats()]);
-    if (currentDetailId === projectId) await handleOpenProject(projectId);
-}
-
-async function handleArchiveProject(projectId, archived) {
-    const result = await setProjectArchived(projectId, archived);
-    if (!result.success) {
-        showCopyToast(result.error || 'No se pudo actualizar el proyecto', 'error');
-        return;
-    }
-    closeProjectDetail();
-    currentDetailId = null;
-    showCopyToast(archived ? 'Proyecto archivado' : 'Proyecto restaurado');
     await Promise.all([loadProjects(), refreshStats()]);
 }
 
@@ -534,8 +517,6 @@ async function init() {
         });
         initProjectDetail({
             onEdit: handleEditProject,
-            onTogglePinned: handleTogglePinned,
-            onArchive: handleArchiveProject,
             onDelete: requestDelete,
         });
         bindEvents();

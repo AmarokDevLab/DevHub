@@ -146,8 +146,7 @@ async function loadProjects() {
 
 function fillProjectSelects() {
     const options = allProjects.map(project => {
-        const suffix = project.is_archived ? ' · Archivado' : '';
-        return `<option value="${project.id}">${escapeHtml(project.name)}${suffix}</option>`;
+        return `<option value="${project.id}">${escapeHtml(project.name)}</option>`;
     }).join('');
 
     const filter = $('filter-project');
@@ -438,7 +437,6 @@ function setupListeners() {
         $(id).addEventListener('change', applyFilters);
     });
     $('filter-pinned').addEventListener('change', applyFilters);
-
     $('clear-filters-btn').addEventListener('click', () => {
         $('search-input').value = '';
         $('filter-type').value = '';
@@ -1001,21 +999,9 @@ async function handleFavorite(id, newState, triggerButton = null) {
         return;
     }
 
-    const knownItem = loadedItems.get(id) || currentDetailItem;
-    if (knownItem && knownItem.id === id) knownItem.is_pinned = newState;
-    if (currentDetailItem?.id === id) {
-        currentDetailItem.is_pinned = newState;
-    }
-
     showCopyToast(newState ? 'Agregado a Favoritos' : 'Eliminado de Favoritos');
     await fetchItems(true);
-
-    if (currentDetailItem?.id === id) {
-        const refreshed = loadedItems.get(id);
-        if (refreshed) currentDetailItem = refreshed;
-    }
 }
-
 
 function promptDelete(id) {
     itemToDeleteId = id;

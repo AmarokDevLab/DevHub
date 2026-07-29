@@ -97,8 +97,6 @@
 .project-card:hover .project-card__quick-link,
 .project-card:focus-within .project-card__quick-link { opacity: 1; transform: none; }
 .project-card__quick-link:hover { color: var(--color-primary); }
-.project-card__open { min-height: 36px; padding: .45rem .78rem; border: 0; border-radius: 11px; color: var(--color-primary); background: rgba(79,70,229,.08); font-size: .74rem; font-weight: 750; }
-.project-card__open:hover { color: #fff; background: var(--clay-btn-primary-bg); }
 
 /* Compact view */
 .projects-grid--compact { grid-template-columns: 1fr !important; }
@@ -203,7 +201,7 @@ body.project-drawer-open { overflow: hidden; }
 .project-option small { color: var(--text-muted); font-size: .66rem; line-height: 1.35; }
 
 /* Detail */
-.project-detail { width: min(820px,100%); }
+.project-detail { width: min(620px,100%); }
 .project-detail-hero { --project-color: #7C6FF2; position: relative; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--clay-card-bg); box-shadow: var(--shadow-card), var(--clay-card-shadow-inner); }
 .project-detail-hero__accent { height: 8px; background: linear-gradient(90deg,var(--project-color),color-mix(in srgb,var(--project-color) 40%,#fff)); }
 .project-detail-hero__content { padding: 1.15rem; }
@@ -319,7 +317,6 @@ html.dark-theme .project-detail-section { box-shadow: 0 8px 18px rgba(0,0,0,.16)
     .project-card__meta { grid-template-columns: 1fr; }
     .project-card__meta-item--end { text-align: left; }
     .project-card__footer { align-items: flex-end; }
-    .project-card__open { flex: 1; }
     .project-pagination { flex-wrap: wrap; }
     .project-pagination__label { order: -1; width: 100%; text-align: center; }
     .project-detail-actions { display: grid; grid-template-columns: 1fr 1fr; }
@@ -391,5 +388,94 @@ html.dark-theme .project-detail-section { box-shadow: 0 8px 18px rgba(0,0,0,.16)
 
     .project-drawer__footer {
         padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* V11 — Detalle homogéneo con Biblioteca y Prompts */
+.project-card:not(.project-card--skeleton) {
+    cursor: pointer;
+}
+
+.project-card:not(.project-card--skeleton):focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.project-detail {
+    width: min(620px, 100%);
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.18);
+}
+
+.project-detail__header {
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 1.35rem;
+    background: color-mix(in srgb, var(--surface-elevated) 95%, transparent);
+    backdrop-filter: blur(12px);
+}
+
+.project-detail__header .project-drawer__close {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1.5px solid var(--border-subtle);
+    border-radius: 50%;
+}
+
+.project-detail__body {
+    padding: 1.5rem;
+}
+
+.project-detail-actions--header {
+    flex: 1;
+    justify-content: flex-start;
+    margin-top: 0;
+}
+
+.project-detail-actions--header .project-detail-action {
+    min-height: 38px;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+}
+
+@media (max-width: 767.98px) {
+    .project-detail__header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 38px;
+        align-items: start;
+        padding:
+            calc(0.85rem + env(safe-area-inset-top))
+            1rem
+            0.85rem;
+    }
+
+    .project-detail-actions--header {
+        grid-column: 1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .project-detail__header .project-drawer__close {
+        grid-column: 2;
+        margin-left: 0;
+    }
+
+    .project-detail-actions--header .project-detail-action {
+        min-width: 0;
+        min-height: 40px;
+        justify-content: center;
+        padding: 0.5rem 0.4rem;
+        font-size: 0.75rem;
+        line-height: 1.15;
+        white-space: nowrap;
+    }
+
+    .project-detail__body {
+        padding: 1.5rem;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
     }
 }

@@ -139,7 +139,6 @@ export async function listPrompts({
         /* Ordenamiento */
         const sortOption = SORT_OPTIONS.find((s) => s.value === sort) || SORT_OPTIONS[0];
 
-        /* Favoritos primero cuando se ordena por recientes */
         if (filters.favorite !== true && sort === 'updated_desc') {
             query = query.order('is_favorite', { ascending: false });
         }
@@ -446,12 +445,6 @@ export async function duplicatePrompt(id, userId) {
 
 /* ---- FAVORITO ---- */
 
-/**
- * Alterna el estado de favorito de un prompt.
- * @param {string}  id      - UUID del prompt.
- * @param {boolean} current - Estado actual de favorito.
- * @returns {Promise<{ success: boolean, error?: string }>}
- */
 export async function toggleFavorite(id, current) {
     if (!supabase) return { success: false, error: 'Cliente no configurado.' };
 
@@ -461,11 +454,7 @@ export async function toggleFavorite(id, current) {
             .update({ is_favorite: !current })
             .eq('id', id);
 
-        if (error) {
-            console.error('Error al cambiar favorito:', error.message);
-            return { success: false, error: 'No fue posible cambiar el estado.' };
-        }
-
+        if (error) return { success: false, error: 'No fue posible cambiar el estado.' };
         return { success: true };
     } catch (err) {
         console.error('Excepción al cambiar favorito:', err);

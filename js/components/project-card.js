@@ -91,6 +91,9 @@ function addMenuItem(menu, label, handler, { danger = false, hidden = false } = 
 export function createProjectCard(project, handlers = {}) {
     const card = el('article', 'project-card');
     card.dataset.projectId = project.id;
+    card.tabIndex = 0;
+    card.setAttribute('role', 'article');
+    card.setAttribute('aria-label', `Abrir proyecto ${project.name}`);
     card.style.setProperty('--project-color', project.color || '#7C6FF2');
 
     const accent = el('div', 'project-card__accent');
@@ -135,9 +138,7 @@ export function createProjectCard(project, handlers = {}) {
     menu.hidden = true;
     menu.setAttribute('role', 'menu');
 
-    addMenuItem(menu, 'Abrir proyecto', () => handlers.onOpen?.(project.id));
     addMenuItem(menu, 'Editar', () => handlers.onEdit?.(project.id));
-    addMenuItem(menu, project.is_archived ? 'Restaurar' : 'Archivar', () => handlers.onArchive?.(project.id, !project.is_archived));
     addMenuItem(menu, 'Abrir repositorio', () => handlers.onOpenUrl?.(project.repository_url), { hidden: !project.repository_url });
     addMenuItem(menu, 'Abrir producción', () => handlers.onOpenUrl?.(project.production_url), { hidden: !project.production_url });
     addMenuItem(menu, 'Abrir pruebas', () => handlers.onOpenUrl?.(project.testing_url), { hidden: !project.testing_url });
@@ -164,7 +165,6 @@ export function createProjectCard(project, handlers = {}) {
     const status = el('span', `project-status project-status--${project.status}`, PROJECT_STATUS_LABELS[project.status] || project.status);
     badges.appendChild(status);
     badges.appendChild(el('span', 'project-type', PROJECT_TYPE_LABELS[project.project_type] || project.project_type));
-    if (project.is_archived) badges.appendChild(el('span', 'project-archived-badge', 'Archivado'));
     body.appendChild(badges);
 
     const description = el('p', 'project-card__description', project.description || 'Sin descripción.');
@@ -212,14 +212,15 @@ export function createProjectCard(project, handlers = {}) {
     quickLink('Abrir producción', project.production_url, '<path d="M14 3h7v7M10 14L21 3M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5"/>');
     quickLink('Abrir pruebas', project.testing_url, '<path d="M9 3h6M10 3v6l-5 9a2 2 0 001.7 3h10.6a2 2 0 001.7-3l-5-9V3M8 15h8"/>');
 
-    footer.appendChild(quickLinks);
-    const openButton = button('project-card__open', `Abrir ${project.name}`, 'Abrir proyecto');
-    openButton.addEventListener('click', event => {
-        event.stopPropagation();
+    if (quickLinks.childElementCount > 0) {
+        footer.appendChild(quickLinks);
+        body.appendChild(footer);
+    }
+
+    card.addEventListener('click', event => {
+        if (event.target.closest('button, a, [role="menuitem"]')) return;
         handlers.onOpen?.(project.id);
     });
-    footer.appendChild(openButton);
-    body.appendChild(footer);
 
     card.addEventListener('keydown', event => {
         if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {

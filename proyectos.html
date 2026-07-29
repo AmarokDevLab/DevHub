@@ -370,7 +370,6 @@
               <option value="testing">En pruebas</option>
               <option value="completed">Completado</option>
               <option value="cancelled">Cancelado</option>
-              <option value="archived">Archivado</option>
             </select>
           </div>
           <div class="project-filter-field">
@@ -389,14 +388,6 @@
             <label for="filter-project-technology">Tecnología</label
             ><select id="filter-project-technology" class="clay-input">
               <option value="">Todas</option>
-            </select>
-          </div>
-          <div class="project-filter-field">
-            <label for="filter-project-archived">Archivado</label
-            ><select id="filter-project-archived" class="clay-input">
-              <option value="active">Solo activos</option>
-              <option value="only">Solo archivados</option>
-              <option value="all">Todos</option>
             </select>
           </div>
           <div class="project-filter-field">
@@ -514,16 +505,19 @@
       aria-hidden="true"
     >
       <div class="project-detail__header">
-        <span class="project-detail__eyebrow">Centro del proyecto</span>
-        <button
-          type="button"
-          id="project-detail-close"
-          class="project-drawer__close"
-          aria-label="Cerrar detalle"
-        >
-          ✕
-        </button>
-      </div>
+          <div class="project-detail-actions project-detail-actions--header">
+            <button type="button" id="project-detail-edit" class="project-detail-action">Editar</button>
+            <button type="button" id="project-detail-delete" class="project-detail-action project-detail-action--danger">Eliminar</button>
+          </div>
+          <button
+            type="button"
+            id="project-detail-close"
+            class="project-drawer__close"
+            aria-label="Cerrar detalle"
+          >
+            ✕
+          </button>
+        </div>
       <div class="project-detail__body">
         <section class="project-detail-hero" id="project-detail-hero">
           <div class="project-detail-hero__accent"></div>
@@ -533,12 +527,6 @@
                 <h2 id="project-detail-name"></h2>
                 <p id="project-detail-client"></p>
               </div>
-              <span
-                id="project-detail-archived"
-                class="project-archived-badge"
-                hidden
-                >Archivado</span
-              >
             </div>
             <div class="project-detail-hero__badges">
               <span id="project-detail-status" class="project-status"></span
@@ -552,36 +540,6 @@
               id="project-detail-technologies"
               class="project-detail-technologies"
             ></div>
-            <div class="project-detail-actions">
-              <button
-                type="button"
-                id="project-detail-edit"
-                class="project-detail-action project-detail-action--primary"
-              >
-                Editar
-              </button>
-              <button
-                type="button"
-                id="project-detail-pin"
-                class="project-detail-action"
-              >
-                ☆ Destacar
-              </button>
-              <button
-                type="button"
-                id="project-detail-archive"
-                class="project-detail-action"
-              >
-                Archivar
-              </button>
-              <button
-                type="button"
-                id="project-detail-delete"
-                class="project-detail-action project-detail-action--danger"
-              >
-                Eliminar
-              </button>
-            </div>
           </div>
         </section>
 
@@ -897,21 +855,6 @@
             </div>
           </section>
 
-          <!-- Estado interno: Favorito y Archivado se gestionan desde la tarjeta o el detalle, no durante el registro. -->
-          <input
-            type="checkbox"
-            id="project-is-pinned"
-            hidden
-            aria-hidden="true"
-            tabindex="-1"
-          />
-          <input
-            type="checkbox"
-            id="project-is-archived"
-            hidden
-            aria-hidden="true"
-            tabindex="-1"
-          />
         </div>
         <div class="project-drawer__footer">
           <button
