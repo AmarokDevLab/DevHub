@@ -174,11 +174,55 @@
                 🔐 Seguridad
             </h3>
             <p class="settings-section__desc">
-                Cambia la contraseña con la que accedes a DevHub. Primero verificaremos tu contraseña actual.
+                Administra la credencial con la que accedes a tu espacio.
             </p>
 
+            <div class="settings-row">
+                <div class="settings-row__info">
+                    <p class="settings-row__label">Contraseña de acceso</p>
+                    <p class="settings-row__hint">
+                        Te pediremos tu contraseña actual antes de guardar una nueva.
+                    </p>
+                </div>
+                <button type="button" class="settings-security-action" id="open-password-change-btn">
+                    Cambiar contraseña
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Confirmación previa -->
+    <div class="settings-confirm-overlay" id="password-confirm-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="password-confirm-title" aria-hidden="true">
+        <div class="settings-confirm">
+            <div class="settings-confirm__icon" aria-hidden="true">🔐</div>
+            <h3 id="password-confirm-title">¿Cambiar tu contraseña?</h3>
+            <p>Deberás verificar tu contraseña actual antes de establecer una nueva.</p>
+            <div class="settings-confirm__actions">
+                <button type="button" class="settings-dialog-btn settings-dialog-btn--secondary"
+                    id="password-confirm-cancel">Cancelar</button>
+                <button type="button" class="settings-dialog-btn settings-dialog-btn--primary"
+                    id="password-confirm-continue">Sí, continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal en PC / vista completa en móvil -->
+    <div class="settings-password-overlay" id="password-form-overlay" aria-hidden="true">
+        <section class="settings-password-dialog" role="dialog" aria-modal="true"
+            aria-labelledby="password-dialog-title">
+            <header class="settings-password-dialog__header">
+                <div>
+                    <span class="settings-password-dialog__eyebrow">Seguridad</span>
+                    <h3 id="password-dialog-title">Cambiar contraseña</h3>
+                </div>
+                <button type="button" class="settings-password-dialog__close"
+                    id="password-dialog-close" aria-label="Cerrar">✕</button>
+            </header>
+
             <form class="settings-password-form" id="change-password-form" novalidate>
-                <div class="settings-password-grid">
+                <div class="settings-password-dialog__body">
                     <div class="settings-field">
                         <label for="current-password">Contraseña actual</label>
                         <input type="password" id="current-password" class="clay-input"
@@ -195,20 +239,22 @@
                         <input type="password" id="confirm-new-password" class="clay-input"
                             autocomplete="new-password" minlength="8" required />
                     </div>
-                </div>
-
-                <div class="settings-password-form__footer">
                     <p class="settings-password-message" id="password-change-message"
                         role="status" aria-live="polite"></p>
-                    <button type="submit" class="clay-btn settings-password-submit" id="change-password-btn">
-                        <span class="settings-password-submit__label">Actualizar contraseña</span>
+                </div>
+
+                <footer class="settings-password-dialog__footer">
+                    <button type="button" class="settings-dialog-btn settings-dialog-btn--secondary"
+                        id="password-form-cancel">Cancelar</button>
+                    <button type="submit" class="settings-dialog-btn settings-dialog-btn--primary"
+                        id="change-password-btn">
+                        <span>Actualizar contraseña</span>
                         <span class="spinner-border spinner-border-sm d-none" aria-hidden="true"></span>
                     </button>
-                </div>
+                </footer>
             </form>
         </section>
-
-    </main>
+    </div>
 
     <footer class="app-footer" aria-label="Pie de página">
         <div class="container">
@@ -266,6 +312,76 @@
         const passwordForm = document.getElementById('change-password-form');
         const passwordSubmit = document.getElementById('change-password-btn');
         const passwordMessage = document.getElementById('password-change-message');
+        const passwordOpenBtn = document.getElementById('open-password-change-btn');
+        const passwordConfirmOverlay = document.getElementById('password-confirm-overlay');
+        const passwordConfirmCancel = document.getElementById('password-confirm-cancel');
+        const passwordConfirmContinue = document.getElementById('password-confirm-continue');
+        const passwordFormOverlay = document.getElementById('password-form-overlay');
+        const passwordDialogClose = document.getElementById('password-dialog-close');
+        const passwordFormCancel = document.getElementById('password-form-cancel');
+        let passwordChangeBusy = false;
+
+        function setDialogOpenState(isOpen) {
+            document.body.classList.toggle('settings-dialog-open', isOpen);
+        }
+
+        function openPasswordConfirmation() {
+            passwordConfirmOverlay.classList.add('settings-confirm-overlay--visible');
+            passwordConfirmOverlay.setAttribute('aria-hidden', 'false');
+            setDialogOpenState(true);
+            setTimeout(() => passwordConfirmCancel.focus(), 50);
+        }
+
+        function closePasswordConfirmation({ restoreFocus = true } = {}) {
+            passwordConfirmOverlay.classList.remove('settings-confirm-overlay--visible');
+            passwordConfirmOverlay.setAttribute('aria-hidden', 'true');
+            if (!passwordFormOverlay.classList.contains('settings-password-overlay--visible')) {
+                setDialogOpenState(false);
+            }
+            if (restoreFocus) passwordOpenBtn.focus();
+        }
+
+        function openPasswordForm() {
+            closePasswordConfirmation({ restoreFocus: false });
+            passwordFormOverlay.classList.add('settings-password-overlay--visible');
+            passwordFormOverlay.setAttribute('aria-hidden', 'false');
+            setDialogOpenState(true);
+            setTimeout(() => document.getElementById('current-password').focus(), 50);
+        }
+
+        function closePasswordForm() {
+            if (passwordChangeBusy) return;
+            passwordFormOverlay.classList.remove('settings-password-overlay--visible');
+            passwordFormOverlay.setAttribute('aria-hidden', 'true');
+            passwordForm.reset();
+            passwordMessage.textContent = '';
+            passwordMessage.className = 'settings-password-message';
+            setDialogOpenState(false);
+            passwordOpenBtn.focus();
+        }
+
+        passwordOpenBtn.addEventListener('click', openPasswordConfirmation);
+        passwordConfirmCancel.addEventListener('click', () => closePasswordConfirmation());
+        passwordConfirmContinue.addEventListener('click', openPasswordForm);
+        passwordDialogClose.addEventListener('click', closePasswordForm);
+        passwordFormCancel.addEventListener('click', closePasswordForm);
+
+        passwordConfirmOverlay.addEventListener('click', (event) => {
+            if (event.target === passwordConfirmOverlay) closePasswordConfirmation();
+        });
+
+        passwordFormOverlay.addEventListener('click', (event) => {
+            if (event.target === passwordFormOverlay) closePasswordForm();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            if (passwordFormOverlay.classList.contains('settings-password-overlay--visible')) {
+                closePasswordForm();
+            } else if (passwordConfirmOverlay.classList.contains('settings-confirm-overlay--visible')) {
+                closePasswordConfirmation();
+            }
+        });
 
         function showPasswordMessage(message, type = 'error') {
             passwordMessage.textContent = message;
@@ -295,13 +411,19 @@
                 return;
             }
 
+            passwordChangeBusy = true;
             passwordSubmit.disabled = true;
+            passwordFormCancel.disabled = true;
+            passwordDialogClose.disabled = true;
             passwordSubmit.querySelector('.spinner-border').classList.remove('d-none');
             passwordMessage.textContent = '';
 
             const result = await changePassword(currentPassword, newPassword);
 
+            passwordChangeBusy = false;
             passwordSubmit.disabled = false;
+            passwordFormCancel.disabled = false;
+            passwordDialogClose.disabled = false;
             passwordSubmit.querySelector('.spinner-border').classList.add('d-none');
 
             if (!result.success) {
