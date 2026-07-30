@@ -57,6 +57,7 @@ export function showView(targetViewId) {
     clearAlerts();
 
     authContainer.classList.remove('d-none');
+    document.body.dataset.authView = targetViewId;
 
     ALL_VIEW_IDS.forEach((id) => {
         const viewEl = document.getElementById(id);

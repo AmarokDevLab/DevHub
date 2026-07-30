@@ -1,4 +1,4 @@
-const CACHE_NAME = 'devhub-cache-v26';
+const CACHE_NAME = 'devhub-cache-v29';
 const APP_SHELL = [
     './',
     './index.html',
@@ -11,7 +11,7 @@ const APP_SHELL = [
     './css/variables.css',
     './css/components.css',
     './css/app-shell.css',
-    './css/auth.css',
+    './css/auth.css?v=29',
     './css/dashboard.css',
     './css/projects.css',
     './css/prompts.css',
