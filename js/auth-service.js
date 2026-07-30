@@ -109,7 +109,8 @@ export async function signUp(email, password, displayName) {
 
 /**
  * Envía un correo de recuperación de contraseña.
- * Siempre devuelve éxito para no revelar si el email existe.
+ * No distingue si el correo existe, pero sí informa fallos técnicos
+ * al comunicarse con el proveedor de autenticación.
  * @param {string} email
  * @returns {Promise<AuthResult>}
  */
@@ -118,9 +119,14 @@ export async function recoverPassword(email) {
     if (guard) return guard;
 
     try {
-        await supabase.auth.resetPasswordForEmail(email, {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: AUTH_CALLBACK_URL,
         });
+
+        if (error) {
+            console.error('Error al solicitar recuperación:', error.message);
+            return { success: false, error: ERROR_MESSAGES.RECOVERY_FAILED };
+        }
 
         /* Siempre reportamos éxito para proteger la privacidad */
         return { success: true };
@@ -148,6 +154,40 @@ export async function updatePassword(newPassword) {
         }
 
         return { success: true };
+    } catch {
+        return { success: false, error: ERROR_MESSAGES.UNEXPECTED };
+    }
+}
+
+/**
+ * Cambia la contraseña de una sesión normal después de verificar
+ * la contraseña actual del usuario.
+ * @param {string} currentPassword
+ * @param {string} newPassword
+ * @returns {Promise<AuthResult>}
+ */
+export async function changePassword(currentPassword, newPassword) {
+    const guard = guardClient();
+    if (guard) return guard;
+
+    try {
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+        const email = userData?.user?.email;
+
+        if (userError || !email) {
+            return { success: false, error: 'No fue posible verificar tu sesión.' };
+        }
+
+        const { error: verificationError } = await supabase.auth.signInWithPassword({
+            email,
+            password: currentPassword,
+        });
+
+        if (verificationError) {
+            return { success: false, error: 'La contraseña actual no es correcta.' };
+        }
+
+        return updatePassword(newPassword);
     } catch {
         return { success: false, error: ERROR_MESSAGES.UNEXPECTED };
     }

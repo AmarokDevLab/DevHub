@@ -42,6 +42,28 @@ let hasProcessedInitialSession = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
     initUI();
+    const recoveryRequested = isRecoveryCallback();
+
+    /* Registrar antes de consultar la sesión para no perder PASSWORD_RECOVERY. */
+    onAuthStateChange((event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+            hasProcessedInitialSession = true;
+            showView(VIEWS.RESET);
+            hideLoader();
+            cleanAuthCallbackUrl();
+            return;
+        }
+
+        if (event === 'SIGNED_IN' && session && !recoveryRequested) {
+            window.location.href = DASHBOARD_URL;
+            return;
+        }
+
+        if (event === 'SIGNED_OUT') {
+            showView(VIEWS.LOGIN);
+            hideLoader();
+        }
+    });
 
     /* Mostrar banner si las credenciales no están configuradas */
     if (isPlaceholderConfig()) {
@@ -57,11 +79,10 @@ document.addEventListener('DOMContentLoaded', async () => {
          * Si hay un token de recovery en la URL, no redirigir al dashboard.
          * El evento PASSWORD_RECOVERY lo manejará onAuthStateChange.
          */
-        const hash = window.location.hash;
-        if (hash && hash.includes('type=recovery')) {
+        if (recoveryRequested) {
             hasProcessedInitialSession = true;
+            showView(VIEWS.RESET);
             hideLoader();
-            /* onAuthStateChange procesará el evento PASSWORD_RECOVERY */
         } else {
             /* Sesión activa sin recovery: ir al dashboard */
             window.location.href = DASHBOARD_URL;
@@ -69,30 +90,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } else {
         hasProcessedInitialSession = true;
-        showView(VIEWS.LOGIN);
+        showView(recoveryRequested ? VIEWS.RESET : VIEWS.LOGIN);
         hideLoader();
     }
-
-    /* Registrar listener de cambios de autenticación (una sola vez) */
-    onAuthStateChange((event, session) => {
-        if (event === 'PASSWORD_RECOVERY') {
-            showView(VIEWS.RESET);
-            hideLoader();
-            cleanUrlHash();
-            return;
-        }
-
-        if (event === 'SIGNED_IN' && session) {
-            /* Redirigir al dashboard después de un login exitoso */
-            window.location.href = DASHBOARD_URL;
-            return;
-        }
-
-        if (event === 'SIGNED_OUT') {
-            showView(VIEWS.LOGIN);
-            hideLoader();
-        }
-    });
 
     /* Conectar navegación y formularios */
     bindNavigation();
@@ -107,10 +107,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 /**
  * Elimina parámetros sensibles del hash de la URL.
  */
-function cleanUrlHash() {
-    if (window.location.hash) {
-        history.replaceState(null, document.title, window.location.pathname + window.location.search);
-    }
+function isRecoveryCallback() {
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const queryParams = new URLSearchParams(window.location.search);
+    return hashParams.get('type') === 'recovery'
+        || queryParams.get('type') === 'recovery';
+}
+
+function cleanAuthCallbackUrl() {
+    history.replaceState(null, document.title, window.location.pathname);
 }
 
 /* ---- NAVEGACIÓN ENTRE VISTAS ---- */
@@ -275,7 +280,12 @@ function bindRecoverForm() {
             toggleBtnLoading('recover-form', true);
             clearAlerts();
 
-            await recoverPassword(email);
+            const result = await recoverPassword(email);
+
+            if (!result.success) {
+                showAlert(result.error);
+                return;
+            }
 
             /* Siempre mostramos mensaje neutro, sin importar si el email existe */
             showAlert(
@@ -333,7 +343,7 @@ function bindResetForm() {
             /* Cerrar sesión por seguridad y redirigir al login */
             setTimeout(async () => {
                 await signOut();
-                cleanUrlHash();
+                cleanAuthCallbackUrl();
                 showView(VIEWS.LOGIN);
             }, 2000);
         } finally {
